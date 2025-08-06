@@ -421,7 +421,7 @@ body.no-scroll {
 /* Gaya untuk tombol cooldown */
 .btn-cooldown-active {
     background-color: transparent !important; /* Hilangkan background */
-    color: red !important;
+    color: black !important;
     border: 2px solid red !important;
     cursor: not-allowed;
     box-shadow: none !important;
