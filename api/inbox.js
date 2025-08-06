@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 
-const uri = "Mongodb+srv://DitzKun:<db_password>@cluster0.aqzksbi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://DitzKun:DitzKun@cluster0.aqzksbi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const client = new MongoClient(uri);
 
 module.exports = async (req, res) => {
