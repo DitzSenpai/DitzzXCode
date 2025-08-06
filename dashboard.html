@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DitzMarketplace - Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="search-box">
+            <input type="text" placeholder="Search">
+        </div>
+        <div class="profile">
+            <img src="ditzz.jpg" alt="Profil Pengguna">
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="error.jpg" alt="Logo DitzMarketplace">
+                <span class="logo-text">DitzMarketplace</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="#" onclick="showPage('dashboard-view', this)"><i class="fas fa-home"></i>Dashboard</a></li>
+                <li class="has-submenu" onclick="toggleSubmenu(this)">
+                    <a href="#"><i class="fas fa-brain"></i>A.I</a>
+                    <i class="fas fa-chevron-down submenu-icon"></i>
+                    <ul class="submenu">
+                        <li><a href="#">Gemini AI</a></li>
+                        <li><a href="#">Blackbox AI</a></li>
+                        <li><a href="#">CHAT GPT AI</a></li>
+                        <li><a href="#">GPT With Prompt</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu" onclick="toggleSubmenu(this)">
+                    <a href="#"><i class="fas fa-download"></i>Downloader API</a>
+                    <i class="fas fa-chevron-down submenu-icon"></i>
+                    <ul class="submenu">
+                        <li><a href="#">YTMP3</a></li>
+                        <li><a href="#">YTMP4</a></li>
+                        <li><a href="#">YT Play</a></li>
+                        <li><a href="#">Facebook Downloader</a></li>
+                        <li><a href="#">Tiktok Downloader</a></li>
+                        <li><a href="#">Instagram Downloader</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" onclick="showPage('store-view', this)"><i class="fas fa-store"></i>Store</a></li>
+                <li><a href="#"><i class="fas fa-search"></i>Search API</a></li>
+                <li><a href="#"><i class="fas fa-cat"></i>Anime & Manga API</a></li>
+                <li><a href="#"><i class="fas fa-image"></i>Random Image API</a></li>
+                <li><a id="open-partner-modal" href="#"><i class="fas fa-handshake"></i>Partner Owner</a></li>
+            </ul>
+            <div class="sidebar-footer">
+           <h2>DITZ</h2>
+            </div>
+        </aside>
+        
+        <main class="dashboard-content">
+            <div id="dashboard-view" class="content-view">
+                <div class="dashboard-header">
+                    <i class="fas fa-home"></i>
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="cards-grid">
+                    <div class="card card-1">
+                        <div class="card-icon"><i class="fas fa-wifi"></i></div>
+                        <h3>IP Address</h3>
+                        <p class="card-value" id="ip-address-value">Memuat...</p>
+                        <p class="card-label">Your IP Address</p>
+                    </div>
+                    <div class="card card-4">
+                        <div class="card-icon"><i class="fas fa-clock"></i></div>
+                        <h3>Time</h3>
+                        <p class="card-value" id="time-value">Memuat...</p>
+                        <p class="card-label">Jam | Menit | Detik (WIB)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="store-view" class="content-view" style="display: none;">
+                <div class="dashboard-header">
+                    <i class="fas fa-store"></i>
+                    <h2>Store</h2>
+                </div>
+<section class="product-section">
+    <div class="hero-section">
+        <div class="container">
+            <h3 class="product-title">Panel Pterodactyl</h3>
+            <p class="section-description">Pesan panel game server Pterodactyl siap pakai.</p>
+        </div>
+        <img src="images.png" alt="Gambar Banner Pterodactyl" class="hero-image">
+    </div>
+    <div class="container">
+        </div>
+</section>
+    
+    <div class="container">
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="images (1).png" alt="Panel Pterodactyl Basic">
+                <h4>Panel Basic</h4>
+                <p class="price">Rp 50.000</p>
+                <p class="product-desc">Panel Pterodactyl standar untuk server kecil.</p>
+                <a href="#" class="btn btn-buy">Beli Sekarang</a>
+            </div>
+            <div class="product-card">
+                <img src="images (1).png" alt="Panel Pterodactyl Premium">
+                <h4>Panel Premium</h4>
+                <p class="price">Rp 100.000</p>
+                <p class="product-desc">Panel fitur lengkap dengan dukungan premium.</p>
+                <a href="#" class="btn btn-buy">Beli Sekarang</a>
+                           </div>
+                        </div>
+                    </div>
+                </section>
+        
+                <section class="product-section">
+                    <div class="container">
+                        <h3 class="product-title">Script Bot WhatsApp</h3>
+                        <p class="section-description">Dapatkan script bot WhatsApp dengan berbagai fitur menarik.</p>
+                        <div class="product-grid">
+                            <div class="product-card">
+                                <img src="https://via.placeholder.com/300x200.png?text=Script+WA+Standar" alt="Script Bot WA Standar">
+                                <h4>Script WA Standar</h4>
+                                <p class="price">Rp 35.000</p>
+                                <p class="product-desc">Script bot dengan fitur dasar yang mudah dioperasikan.</p>
+                                <a href="#" class="btn btn-buy">Beli Sekarang</a>
+                            </div>
+                            <div class="product-card">
+                                <img src="https://via.placeholder.com/300x200.png?text=Script+WA+Premium" alt="Script Bot WA Premium">
+                                <h4>Script WA Premium</h4>
+                                <p class="price">Rp 75.000</p>
+                                <p class="product-desc">Fitur lengkap, kustomisasi tinggi, dan pembaruan berkala.</p>
+                                <a href="#" class="btn btn-buy">Beli Sekarang</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <div class="footer">
+                <p>Copyright © DitzMarketplace  All Rights Reserved</p>
+            </div>
+         </main>
+     </div>
+
+     <div id="partner-owner-modal" class="modal">
+         <div class="modal-content">
+             <span class="close-button" onclick="closeModal('partner-owner-modal')">&times;</span>
+             <h2>Partner Owner</h2>
+             <div class="partner-card-container">
+                 <div class="partner-card">
+                     <h3>Vannz</h3>
+                 </div>
+                 <div class="partner-card">
+                     <h3>Aldo</h3>
+                 </div>
+                 </div>
+         </div>
+     </div>
+
+<div class="loader-wrapper">
+    <div class="loader"></div>
+</div>
+
+     <script src="dashboard.js"></script>
+ </body>
+ </html>

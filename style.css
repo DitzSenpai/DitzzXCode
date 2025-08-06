@@ -1,0 +1,434 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Gaya ini penting untuk mengunci scroll halaman saat modal terbuka */
+body.no-scroll {
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Hero Section */
+.hero-section {
+    background-image: linear-gradient(135deg, #1e40af, #2563eb);
+    text-align: center;
+    padding: 80px 20px 0;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-content .tagline {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-api {
+    background-color: #fff;
+    color: #2563eb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-api:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.btn-community {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-community:hover {
+    background-color: #fff;
+    color: #2563eb;
+    transform: translateY(-2px);
+}
+
+.dashboard-mockup {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    display: block;
+    margin: 50px auto 0;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Bagian Produk Ringkasan */
+.produk-ringkasan-section {
+    background-color: #fff;
+    padding: 80px 0;
+}
+
+.produk-ringkasan-section h2 {
+    color: #34495e;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.produk-ringkasan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    text-align: center;
+}
+
+.produk-ringkasan-card {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.produk-ringkasan-icon {
+    font-size: 2.5rem;
+    color: #2563eb;
+    margin-bottom: 15px;
+}
+
+.produk-ringkasan-card h3 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-top: 0;
+}
+
+.produk-ringkasan-card p {
+    color: #666;
+}
+
+/* Bagian Keunggulan */
+.feature-section {
+    padding: 80px 0;
+}
+
+.alt-bg {
+    background-color: #f0f2f5;
+}
+
+.feature-section h2 {
+    color: #34495e;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.feature-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    text-align: center;
+}
+
+.feature-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: #2563eb;
+    margin-bottom: 15px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    color: #34495e;
+    margin-top: 0;
+}
+
+.feature-card p {
+    color: #666;
+    margin: 0;
+}
+
+/* FAQ Section */
+.faq-section {
+    background-color: #fff;
+    padding: 80px 0;
+}
+
+.faq-section h2 {
+    color: #1e40af;
+    margin-bottom: 40px;
+}
+
+.faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.faq-item {
+    background-color: #ffffff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 20px;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+    font-weight: 600;
+    color: #34495e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    color: #555;
+    margin-top: 10px;
+    padding-top: 0;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding-top: 15px;
+}
+
+/* Footer Utama */
+.footer-section {
+    background-color: #1e40af;
+    color: #fff;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    .hero-content .tagline {
+        font-size: 1rem;
+    }
+    .btn-group {
+        flex-direction: column;
+    }
+    .feature-card-grid, .produk-ringkasan-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- GAYA TAMBAHAN UNTUK MODAL, FORMULIR & LOADER --- */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1002;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    background-color: rgba(0, 0, 0, 0.5); /* Backdrop */
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 700px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transform: scale(0.8);
+    opacity: 0;
+}
+
+.modal.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-content h2 {
+    text-align: center;
+    color: #34495e;
+    margin-bottom: 20px;
+}
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #000;
+}
+
+.community-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.community-form input {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.community-form input:focus {
+    outline: none;
+    border-color: #3478db;
+    box-shadow: 0 0 5px rgba(52, 120, 219, 0.2);
+}
+
+.btn-community-submit {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-community-submit:hover {
+    background-color: #27ae60;
+}
+
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s, visibility 0.5s;
+    opacity: 1;
+    visibility: visible;
+}
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Gaya untuk tombol cooldown */
+.btn-cooldown-active {
+    background-color: transparent !important; /* Hilangkan background */
+    color: red !important;
+    border: 2px solid red !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+
+/* Opsi: Gaya tombol saat dalam keadaan disabled */
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
