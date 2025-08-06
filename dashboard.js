@@ -1,3 +1,5 @@
+// File: dashboard.js (SALIN DAN GANTI KODE LAMA)
+
 // =======================================================
 // === Gabungan dan Perbaikan Seluruh Kode JavaScript ===
 // =======================================================
@@ -34,13 +36,11 @@ function updateTime() {
     timeElement.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
-// --- FUNGSI INI SUDAH DIPERBAIKI ---
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
     sidebar.classList.toggle('active');
 
-    // TAMBAHKAN KEMBALI KODE INI
     if (sidebar.classList.contains('active')) {
         body.classList.add('no-scroll');
     } else {
@@ -80,6 +80,10 @@ function showPage(pageId, link) {
             link.parentNode.classList.add('active');
         }
 
+        if (pageId === 'inbox-view') {
+            loadInboxSubmissions();
+        }
+
         if (window.innerWidth <= 768) {
             toggleMenu();
         }
@@ -88,23 +92,19 @@ function showPage(pageId, link) {
     }, 100);
 }
 
-// --- FUNGSI INI SUDAH DIPERBAIKI ---
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.add('show');
-        // TAMBAHKAN KEMBALI KODE INI
         document.body.classList.add('no-scroll');
     }
 }
 
-// --- FUNGSI INI SUDAH DIPERBAIKI ---
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.remove('show');
         setTimeout(() => {
-             // TAMBAHKAN KEMBALI KODE INI
              document.body.classList.remove('no-scroll');
         }, 300);
     }
@@ -115,6 +115,73 @@ window.onclick = function(event) {
         closeModal(event.target.id);
     }
 }
+
+// --- FUNGSI INBOX BARU ---
+async function loadInboxSubmissions() {
+    const tableBody = document.getElementById('inbox-table-body');
+    if (!tableBody) return;
+    
+    tableBody.innerHTML = '<tr><td colspan="4">Memuat data...</td></tr>';
+
+    try {
+        const response = await fetch('/api/inbox');
+        const data = await response.json();
+        
+        tableBody.innerHTML = '';
+        if (data.success && data.data.length > 0) {
+            data.data.forEach(submission => {
+                const row = document.createElement('tr');
+                const timestamp = new Date(submission.createdAt).toLocaleString();
+                row.innerHTML = `
+                    <td><strong>${submission.title}</strong></td>
+                    <td>${submission.message}</td>
+                    <td>${timestamp}</td>
+                    <td>
+                        <button class="delete-btn" data-id="${submission._id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        } else {
+            tableBody.innerHTML = '<tr><td colspan="4">Tidak ada pemberitahuan.</td></tr>';
+        }
+    } catch (error) {
+        console.error('Error fetching submissions:', error);
+        tableBody.innerHTML = '<tr><td colspan="4">Gagal memuat data inbox.</td></tr>';
+    }
+    
+    tableBody.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const id = event.currentTarget.dataset.id;
+            if (confirm('Apakah Anda yakin ingin menghapus pemberitahuan ini?')) {
+                deleteInboxItem(id);
+            }
+        });
+    });
+}
+
+async function deleteInboxItem(id) {
+    try {
+        const response = await fetch('/api/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: id })
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert('Pemberitahuan berhasil dihapus!');
+            loadInboxSubmissions();
+        } else {
+            alert('Gagal menghapus pemberitahuan: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error deleting item:', error);
+        alert('Terjadi kesalahan saat menghapus data.');
+    }
+}
+// END FUNGSI INBOX
 
 // Fungsi untuk menampilkan loading screen
 function showLoader() {
@@ -132,8 +199,6 @@ function hideLoader() {
     }
 }
 
-
-// --- HANYA ADA SATU DOMContentLoaded event listener ---
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('dashboard-view')) {
         fetchIpAddress();

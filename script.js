@@ -32,7 +32,7 @@ window.onclick = function(event) {
 // --- LOGIKA COOLDOWN TOMBOL ---
 const COOLDOWN_TIME = 5 * 60 * 1000; // 5 menit dalam milidetik
 const storageKey = 'communityButtonCooldown';
-const COOLDOWN_MESSAGE = 'Anda Sudah Mengirim. Tunggu Balasan Dari Admin Dan Cek Gmail Anda.';
+const COOLDOWN_MESSAGE = 'Anda Sudah Mengirim. Tunggu Balasan Dari Admin Dan Cek Gmail Anda, Biasanya 1 menit.';
 
 function cooldownButton() {
     const btn = document.getElementById('join-community-btn');

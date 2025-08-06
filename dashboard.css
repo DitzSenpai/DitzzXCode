@@ -92,7 +92,7 @@ body.no-scroll {
     z-index: 999;
     padding: 20px;
     box-sizing: border-box;
-    overflow-y: auto; /* PENTING: Membuat sidebar bisa di-scroll */
+    overflow-y: auto;
 }
 
 .sidebar.active {
@@ -331,6 +331,45 @@ body.no-scroll {
 
 .btn-buy:hover {
     background-color: #27ae60;
+}
+
+
+/* Gaya untuk Inbox */
+.inbox-container {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.inbox-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inbox-container th, .inbox-container td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.inbox-container th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.delete-btn:hover {
+    color: #c0392b;
 }
 
 
