@@ -1,0 +1,12 @@
+{
+  "name": "ditzmarketplace-api",
+  "version": "1.0.0",
+  "description": "Backend for DitzMarketplace",
+  "main": "api/create.js",
+  "scripts": {
+    "start": "node api/create.js"
+  },
+  "dependencies": {
+    "mongodb": "^6.8.0"
+  }
+}
