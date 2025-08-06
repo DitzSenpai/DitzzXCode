@@ -1,34 +1,31 @@
-// File: admin.js
-
 document.getElementById('notification-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const title = document.getElementById('title').value;
-    const message = document.getElementById('message').value;
-
-    if (!title || !message) {
-        alert('Judul dan isi pemberitahuan tidak boleh kosong!');
-        return;
-    }
+    const form = e.target;
+    const title = form.title.value;
+    const message = form.message.value;
+    const responseMessageDiv = document.getElementById('response-message');
 
     try {
         const response = await fetch('/api/create', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ title, message }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, message })
         });
 
         const data = await response.json();
+
         if (data.success) {
-            alert('Pemberitahuan berhasil dibuat!');
-            document.getElementById('notification-form').reset();
+            responseMessageDiv.textContent = 'Pemberitahuan berhasil dikirim!';
+            responseMessageDiv.style.color = 'green';
+            form.reset();
         } else {
-            alert('Gagal membuat pemberitahuan: ' + data.message);
+            responseMessageDiv.textContent = 'Gagal mengirim pemberitahuan: ' + data.message;
+            responseMessageDiv.style.color = 'red';
         }
     } catch (error) {
+        responseMessageDiv.textContent = 'Terjadi kesalahan saat mengirim data.';
+        responseMessageDiv.style.color = 'red';
         console.error('Error:', error);
-        alert('Terjadi kesalahan saat mengirim pemberitahuan.');
     }
 });

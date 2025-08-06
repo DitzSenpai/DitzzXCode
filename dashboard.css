@@ -17,7 +17,6 @@ body {
     line-height: 1.6;
 }
 
-/* KODE INI DIPERBAIKI: Halaman tidak bisa di-scroll saat kelas ini aktif */
 body.no-scroll {
     overflow: hidden;
 }
@@ -28,7 +27,6 @@ body.no-scroll {
     padding: 0 20px;
 }
 
-/* Gaya Dashboard */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -250,7 +248,6 @@ body.no-scroll {
     padding: 20px;
 }
 
-/* Gaya untuk Halaman Store */
 .product-section {
     padding: 20px 0;
 }
@@ -334,46 +331,180 @@ body.no-scroll {
 }
 
 
-/* Gaya untuk Inbox */
-.inbox-container {
-    background-color: var(--card-bg);
+.form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
-.inbox-container table {
-    width: 100%;
-    border-collapse: collapse;
+.form-container h2 {
+    text-align: center;
+    color: #34495e;
+    margin-bottom: 30px;
 }
 
-.inbox-container th, .inbox-container td {
-    padding: 15px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
+.form-group {
+    margin-bottom: 20px;
 }
 
-.inbox-container th {
-    background-color: #f8f9fa;
+.form-group label {
+    display: block;
     font-weight: 600;
+    margin-bottom: 8px;
     color: #555;
 }
 
-.delete-btn {
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #3478db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #2a65b5;
+}
+
+
+/* --- GAYA UNTUK INBOX SEPERTI DAFTAR PESAN --- */
+.inbox-list-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.inbox-list-header i {
+    font-size: 1.5rem;
+    color: #3478db;
+    margin-right: 15px;
+}
+
+.inbox-list-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.inbox-messages-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.inbox-message-item {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-left: 5px solid #3478db;
+    position: relative;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.inbox-message-item:hover {
+    background-color: #f1f2f4;
+}
+
+.inbox-message-item h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.inbox-message-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.message-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.delete-actions {
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+.inbox-message-item:hover .delete-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+.soft-delete-btn, .hard-delete-btn {
     background-color: transparent;
     border: none;
-    color: #e74c3c;
     cursor: pointer;
-    font-size: 1rem;
-    transition: color 0.2s;
+    font-size: 1.1rem;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
 }
 
-.delete-btn:hover {
-    color: #c0392b;
+.soft-delete-btn {
+    color: #3498db;
+}
+
+.soft-delete-btn:hover {
+    background-color: #eaf3f8;
+}
+
+.hard-delete-btn {
+    color: #e74c3c;
+}
+
+.hard-delete-btn:hover {
+    background-color: #fcebeb;
 }
 
 
-/* Media Queries */
 @media (min-width: 768px) {
     .main-container {
         padding-left: 250px;
@@ -409,7 +540,6 @@ body.no-scroll {
 }
 
 
-/* Gaya Pop-up (Modal) */
 .modal {
     display: flex;
     justify-content: center;
@@ -420,6 +550,7 @@ body.no-scroll {
     top: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     
     opacity: 0;
     pointer-events: none;
@@ -452,7 +583,7 @@ body.no-scroll {
 }
 
 .modal-content h2 {
-    text-align: center;
+    text-align: left;
     color: #34495e;
     margin-bottom: 20px;
 }
@@ -473,7 +604,10 @@ body.no-scroll {
     color: #000;
 }
 
-/* Gaya Kartu Partner di Pop-up */
+#modal-message-text {
+    white-space: pre-wrap;
+}
+
 .partner-card-container {
     display: flex;
     flex-wrap: wrap;
@@ -522,7 +656,6 @@ body.no-scroll {
     border-radius: 10px;
 }
 
-/* Pastikan ini satu-satunya kode untuk loader-mu */
 .loader-wrapper {
     position: fixed;
     top: 0;
@@ -535,10 +668,8 @@ body.no-scroll {
     align-items: center;
     z-index: 9999;
     
-    /* Properti ini sangat penting agar efek menghilang berjalan */
     transition: opacity 0.5s, visibility 0.5s;
     
-    /* Atur status awal: terlihat */
     opacity: 1;
     visibility: visible;
 }
@@ -557,7 +688,6 @@ body.no-scroll {
     100% { transform: rotate(360deg); }
 }
 
-/* Kelas ini yang membuat loader menghilang dan tidak bisa di-klik */
 .hidden {
     opacity: 0;
     visibility: hidden;

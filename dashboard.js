@@ -4,6 +4,10 @@
 // === Gabungan dan Perbaikan Seluruh Kode JavaScript ===
 // =======================================================
 
+// LOGIKA BARU: KUNCI API UNTUK HAPUS PERMANEN
+// Ganti dengan kunci yang kamu set di Vercel
+const HARD_DELETE_API_KEY = 'DitzKun';
+
 // Fungsi untuk FAQ di index.html
 function toggleFaq(element) {
     element.classList.toggle('active');
@@ -118,70 +122,144 @@ window.onclick = function(event) {
 
 // --- FUNGSI INBOX BARU ---
 async function loadInboxSubmissions() {
-    const tableBody = document.getElementById('inbox-table-body');
-    if (!tableBody) return;
+    const inboxContainer = document.getElementById('inbox-messages');
+    if (!inboxContainer) return;
     
-    tableBody.innerHTML = '<tr><td colspan="4">Memuat data...</td></tr>';
+    inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Memuat pesan...</p>';
 
     try {
         const response = await fetch('/api/inbox');
         const data = await response.json();
         
-        tableBody.innerHTML = '';
+        inboxContainer.innerHTML = '';
         if (data.success && data.data.length > 0) {
             data.data.forEach(submission => {
-                const row = document.createElement('tr');
+                const messageItem = document.createElement('div');
+                messageItem.classList.add('inbox-message-item');
+                messageItem.dataset.title = submission.title;
+                messageItem.dataset.message = submission.message;
+
                 const timestamp = new Date(submission.createdAt).toLocaleString();
-                row.innerHTML = `
-                    <td><strong>${submission.title}</strong></td>
-                    <td>${submission.message}</td>
-                    <td>${timestamp}</td>
-                    <td>
-                        <button class="delete-btn" data-id="${submission._id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
+                
+                messageItem.innerHTML = `
+                    <h4>${submission.title}</h4>
+                    <p>${submission.message}</p>
+                    <div class="message-meta">
+                        <span>${timestamp}</span>
+                        <div class="delete-actions">
+                            <button class="soft-delete-btn" data-id="${submission._id}">
+                                <i class="fas fa-eye-slash"></i> Sembunyikan
+                            </button>
+                            <button class="hard-delete-btn" data-id="${submission._id}">
+                                <i class="fas fa-trash"></i> Hapus Permanen
+                            </button>
+                        </div>
+                    </div>
                 `;
-                tableBody.appendChild(row);
+                inboxContainer.appendChild(messageItem);
             });
+
+            // Tambahkan event listener ke setiap item pesan untuk modal
+            inboxContainer.querySelectorAll('.inbox-message-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    // Hanya buka modal jika tidak mengklik tombol hapus
+                    if (!e.target.closest('.delete-actions')) {
+                        const title = item.dataset.title;
+                        const message = item.dataset.message;
+                        openMessageModal(title, message);
+                    }
+                });
+            });
+
+            // Tambahkan event listener untuk tombol soft delete
+            inboxContainer.querySelectorAll('.soft-delete-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const id = event.currentTarget.dataset.id;
+                    if (confirm('Apakah Anda yakin ingin menyembunyikan pemberitahuan ini?')) {
+                        softDeleteInboxItem(id);
+                    }
+                });
+            });
+
+            // Tambahkan event listener untuk tombol hard delete
+            inboxContainer.querySelectorAll('.hard-delete-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const id = event.currentTarget.dataset.id;
+                    if (confirm('PERINGATAN: Apakah Anda yakin ingin menghapus pemberitahuan ini secara PERMANEN?')) {
+                        hardDeleteInboxItem(id);
+                    }
+                });
+            });
+
         } else {
-            tableBody.innerHTML = '<tr><td colspan="4">Tidak ada pemberitahuan.</td></tr>';
+            inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Tidak ada pemberitahuan.</p>';
         }
     } catch (error) {
         console.error('Error fetching submissions:', error);
-        tableBody.innerHTML = '<tr><td colspan="4">Gagal memuat data inbox.</td></tr>';
+        inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Gagal memuat data inbox.</p>';
     }
-    
-    tableBody.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const id = event.currentTarget.dataset.id;
-            if (confirm('Apakah Anda yakin ingin menghapus pemberitahuan ini?')) {
-                deleteInboxItem(id);
-            }
-        });
-    });
 }
 
-async function deleteInboxItem(id) {
+// Fungsi untuk Soft Delete (menyembunyikan)
+async function softDeleteInboxItem(id) {
     try {
-        const response = await fetch('/api/delete', {
+        const response = await fetch('/api/delete', { // Endpoint ini melakukan update
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: id })
         });
         const data = await response.json();
         if (data.success) {
-            alert('Pemberitahuan berhasil dihapus!');
+            alert('Pemberitahuan berhasil disembunyikan!');
             loadInboxSubmissions();
         } else {
-            alert('Gagal menghapus pemberitahuan: ' + data.message);
+            alert('Gagal menyembunyikan pemberitahuan: ' + data.message);
         }
     } catch (error) {
-        console.error('Error deleting item:', error);
+        console.error('Error soft-deleting item:', error);
+        alert('Terjadi kesalahan saat menyembunyikan data.');
+    }
+}
+
+// Fungsi untuk Hard Delete (menghapus permanen)
+async function hardDeleteInboxItem(id) {
+    try {
+        const response = await fetch('/api/hard-delete', { // Endpoint baru untuk menghapus permanen
+            method: 'POST',
+            // LOGIKA BARU: MENAMBAHKAN KUNCI API DI HEADER
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': HARD_DELETE_API_KEY
+            },
+            // AKHIR LOGIKA BARU
+            body: JSON.stringify({ id: id })
+        });
+        const data = await response.json();
+        if (data.success) {
+            alert('Pemberitahuan berhasil dihapus secara permanen!');
+            loadInboxSubmissions();
+        } else {
+            // Menambahkan penanganan error untuk Unauthorized
+            if (response.status === 401) {
+                 alert('Error: Anda tidak memiliki izin untuk menghapus permanen. Kunci API tidak valid.');
+            } else {
+                 alert('Gagal menghapus permanen: ' + data.message);
+            }
+        }
+    } catch (error) {
+        console.error('Error hard-deleting item:', error);
         alert('Terjadi kesalahan saat menghapus data.');
     }
 }
-// END FUNGSI INBOX
+
+
+// Fungsi baru untuk membuka modal pesan
+function openMessageModal(title, message) {
+    document.getElementById('modal-message-title').textContent = title;
+    document.getElementById('modal-message-text').textContent = message;
+    openModal('message-detail-modal');
+}
+
 
 // Fungsi untuk menampilkan loading screen
 function showLoader() {

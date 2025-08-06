@@ -86,24 +86,12 @@
             </div>
 
             <div id="inbox-view" class="content-view" style="display: none;">
-                <div class="dashboard-header">
+                <div class="inbox-list-header">
                     <i class="fas fa-inbox"></i>
-                    <h2>Inbox Pendaftaran Komunitas</h2>
+                    <h2>Inbox Pemberitahuan</h2>
                 </div>
-                <div class="inbox-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>Waktu Pendaftaran</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inbox-table-body">
-                            </tbody>
-                    </table>
-                </div>
+                <div id="inbox-messages" class="inbox-messages-container">
+                    </div>
             </div>
             <div id="store-view" class="content-view" style="display: none;">
                 <div class="dashboard-header">
@@ -186,8 +174,15 @@
                  </div>
          </div>
      </div>
-
-<div class="loader-wrapper">
+    
+    <div id="message-detail-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('message-detail-modal')">&times;</span>
+            <h2 id="modal-message-title"></h2>
+            <p id="modal-message-text"></p>
+        </div>
+    </div>
+    <div class="loader-wrapper">
     <div class="loader"></div>
 </div>
 
