@@ -1,7 +1,7 @@
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 // GANTI DENGAN ALAMAT KONEKSI DARI .env atau langsung
-const uri = process.env.MONGODB_URI || "mongodb+srv://DitzKun:DitzKun@cluster0.aqzksbi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "mongodb+srv://DitzKun:DitzKun@cluster0.aqzksbi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const client = new MongoClient(uri, {
   serverApi: {
