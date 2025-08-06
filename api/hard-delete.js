@@ -16,6 +16,13 @@ module.exports = async (req, res) => {
     return res.status(405).json({ success: false, message: 'Method Not Allowed' });
   }
 
+  // LOGIKA BARU: MEMERIKSA KUNCI API
+  const apiKey = req.headers['x-api-key'];
+  if (apiKey !== process.env.HARD_DELETE_API_KEY) {
+    return res.status(401).json({ success: false, message: 'Unauthorized: Invalid API Key' });
+  }
+  // AKHIR LOGIKA BARU
+
   const { id } = req.body;
 
   if (!id) {
@@ -27,19 +34,15 @@ module.exports = async (req, res) => {
     const database = client.db('ditz_marketplace');
     const collection = database.collection('submissions');
 
-    // MENGUBAH LOGIKA: UPDATE DOKUMEN BUKAN MENGHAPUSNYA
-    const result = await collection.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: { is_deleted_by_admin: true } }
-    );
+    const result = await collection.deleteOne({ _id: new ObjectId(id) });
     
-    if (result.matchedCount === 1) {
-      res.status(200).json({ success: true, message: 'Submission marked as deleted' });
+    if (result.deletedCount === 1) {
+      res.status(200).json({ success: true, message: 'Submission permanently deleted' });
     } else {
       res.status(404).json({ success: false, message: 'Submission not found' });
     }
   } catch (error) {
-    console.error('Error soft-deleting submission:', error);
+    console.error('Error hard-deleting submission:', error);
     res.status(500).json({ success: false, message: 'Internal Server Error', error: error.message });
   } finally {
     await client.close();
