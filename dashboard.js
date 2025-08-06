@@ -1,19 +1,23 @@
-// File: dashboard.js (SALIN DAN GANTI KODE LAMA)
-
 // =======================================================
 // === Gabungan dan Perbaikan Seluruh Kode JavaScript ===
 // =======================================================
 
-// LOGIKA BARU: KUNCI API UNTUK HAPUS PERMANEN
-// Ganti dengan kunci yang kamu set di Vercel
-const HARD_DELETE_API_KEY = 'DitzKun';
+// Data pesan inbox lokal sebagai ganti database
+let localInboxData = [
+    {
+        _id: '1',
+        title: 'Selamat Datang di Dashboard!',
+        message: 'Halo, ini adalah pesan pertama di inbox Anda. Silakan jelajahi fitur-fitur yang ada.',
+        createdAt: new Date().toISOString()
+    }
+];
 
-// Fungsi untuk FAQ di index.html
+let notificationTimeout;
+
 function toggleFaq(element) {
     element.classList.toggle('active');
 }
 
-// Fungsi untuk dashboard.html
 async function fetchIpAddress() {
     const ipElement = document.getElementById('ip-address-value');
     if (!ipElement) return;
@@ -120,140 +124,101 @@ window.onclick = function(event) {
     }
 }
 
-// --- FUNGSI INBOX BARU ---
-async function loadInboxSubmissions() {
+function showNewMessageNotification() {
+    const notification = document.getElementById('inbox-notification');
+    if (notification) {
+        clearTimeout(notificationTimeout);
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.add('animate');
+        }, 100);
+        
+        notificationTimeout = setTimeout(() => {
+            notification.classList.remove('show');
+            notification.classList.remove('animate');
+        }, 5000);
+    }
+}
+
+function addNewMessage(title, message) {
+    const newId = (localInboxData.length + 1).toString();
+    const newMessage = {
+        _id: newId,
+        title: title,
+        message: message,
+        createdAt: new Date().toISOString()
+    };
+    
+    localInboxData.push(newMessage);
+    showNewMessageNotification();
+    
+    if (document.getElementById('inbox-view').style.display === 'block') {
+        loadInboxSubmissions();
+    }
+}
+
+function loadInboxSubmissions() {
     const inboxContainer = document.getElementById('inbox-messages');
     if (!inboxContainer) return;
+
+    inboxContainer.innerHTML = '';
     
-    inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Memuat pesan...</p>';
+    if (localInboxData.length > 0) {
+        localInboxData.forEach(submission => {
+            const messageItem = document.createElement('div');
+            messageItem.classList.add('inbox-message-item');
+            messageItem.dataset.title = submission.title;
+            messageItem.dataset.message = submission.message;
+            messageItem.dataset.id = submission._id;
 
-    try {
-        const response = await fetch('/api/inbox');
-        const data = await response.json();
-        
-        inboxContainer.innerHTML = '';
-        if (data.success && data.data.length > 0) {
-            data.data.forEach(submission => {
-                const messageItem = document.createElement('div');
-                messageItem.classList.add('inbox-message-item');
-                messageItem.dataset.title = submission.title;
-                messageItem.dataset.message = submission.message;
+            const timestamp = new Date(submission.createdAt).toLocaleString();
 
-                const timestamp = new Date(submission.createdAt).toLocaleString();
-                
-                messageItem.innerHTML = `
+            messageItem.innerHTML = `
+                <div class="message-text-wrapper">
                     <h4>${submission.title}</h4>
                     <p>${submission.message}</p>
                     <div class="message-meta">
                         <span>${timestamp}</span>
                         <div class="delete-actions">
-                            <button class="soft-delete-btn" data-id="${submission._id}">
-                                <i class="fas fa-eye-slash"></i> Sembunyikan
-                            </button>
-                            <button class="hard-delete-btn" data-id="${submission._id}">
-                                <i class="fas fa-trash"></i> Hapus Permanen
+                            <button class="delete-btn" data-id="${submission._id}">
+                                <i class="fas fa-trash"></i> Hapus
                             </button>
                         </div>
                     </div>
-                `;
-                inboxContainer.appendChild(messageItem);
-            });
-
-            // Tambahkan event listener ke setiap item pesan untuk modal
-            inboxContainer.querySelectorAll('.inbox-message-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    // Hanya buka modal jika tidak mengklik tombol hapus
-                    if (!e.target.closest('.delete-actions')) {
-                        const title = item.dataset.title;
-                        const message = item.dataset.message;
-                        openMessageModal(title, message);
-                    }
-                });
-            });
-
-            // Tambahkan event listener untuk tombol soft delete
-            inboxContainer.querySelectorAll('.soft-delete-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const id = event.currentTarget.dataset.id;
-                    if (confirm('Apakah Anda yakin ingin menyembunyikan pemberitahuan ini?')) {
-                        softDeleteInboxItem(id);
-                    }
-                });
-            });
-
-            // Tambahkan event listener untuk tombol hard delete
-            inboxContainer.querySelectorAll('.hard-delete-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const id = event.currentTarget.dataset.id;
-                    if (confirm('PERINGATAN: Apakah Anda yakin ingin menghapus pemberitahuan ini secara PERMANEN?')) {
-                        hardDeleteInboxItem(id);
-                    }
-                });
-            });
-
-        } else {
-            inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Tidak ada pemberitahuan.</p>';
-        }
-    } catch (error) {
-        console.error('Error fetching submissions:', error);
-        inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Gagal memuat data inbox.</p>';
-    }
-}
-
-// Fungsi untuk Soft Delete (menyembunyikan)
-async function softDeleteInboxItem(id) {
-    try {
-        const response = await fetch('/api/delete', { // Endpoint ini melakukan update
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: id })
+                </div>
+            `;
+            inboxContainer.appendChild(messageItem);
         });
-        const data = await response.json();
-        if (data.success) {
-            alert('Pemberitahuan berhasil disembunyikan!');
-            loadInboxSubmissions();
-        } else {
-            alert('Gagal menyembunyikan pemberitahuan: ' + data.message);
-        }
-    } catch (error) {
-        console.error('Error soft-deleting item:', error);
-        alert('Terjadi kesalahan saat menyembunyikan data.');
-    }
-}
 
-// Fungsi untuk Hard Delete (menghapus permanen)
-async function hardDeleteInboxItem(id) {
-    try {
-        const response = await fetch('/api/hard-delete', { // Endpoint baru untuk menghapus permanen
-            method: 'POST',
-            // LOGIKA BARU: MENAMBAHKAN KUNCI API DI HEADER
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': HARD_DELETE_API_KEY
-            },
-            // AKHIR LOGIKA BARU
-            body: JSON.stringify({ id: id })
+        inboxContainer.querySelectorAll('.inbox-message-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (!e.target.closest('.delete-actions')) {
+                    const title = item.dataset.title;
+                    const message = item.dataset.message;
+                    openMessageModal(title, message);
+                }
+            });
         });
-        const data = await response.json();
-        if (data.success) {
-            alert('Pemberitahuan berhasil dihapus secara permanen!');
-            loadInboxSubmissions();
-        } else {
-            // Menambahkan penanganan error untuk Unauthorized
-            if (response.status === 401) {
-                 alert('Error: Anda tidak memiliki izin untuk menghapus permanen. Kunci API tidak valid.');
-            } else {
-                 alert('Gagal menghapus permanen: ' + data.message);
-            }
-        }
-    } catch (error) {
-        console.error('Error hard-deleting item:', error);
-        alert('Terjadi kesalahan saat menghapus data.');
+
+        inboxContainer.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const id = event.currentTarget.dataset.id;
+                if (confirm('Apakah Anda yakin ingin menghapus pemberitahuan ini?')) {
+                    deleteInboxItem(id);
+                }
+            });
+        });
+
+    } else {
+        inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Tidak ada pemberitahuan.</p>';
     }
 }
 
+function deleteInboxItem(id) {
+    localInboxData = localInboxData.filter(item => item._id !== id);
+    loadInboxSubmissions();
+}
 
-// Fungsi baru untuk membuka modal pesan
 function openMessageModal(title, message) {
     document.getElementById('modal-message-title').textContent = title;
     document.getElementById('modal-message-text').textContent = message;
@@ -261,7 +226,6 @@ function openMessageModal(title, message) {
 }
 
 
-// Fungsi untuk menampilkan loading screen
 function showLoader() {
     const loaderWrapper = document.querySelector('.loader-wrapper');
     if (loaderWrapper) {
@@ -269,7 +233,6 @@ function showLoader() {
     }
 }
 
-// Fungsi untuk menyembunyikan loading screen
 function hideLoader() {
     const loaderWrapper = document.querySelector('.loader-wrapper');
     if (loaderWrapper) {
@@ -292,5 +255,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    setTimeout(() => {
+      addNewMessage('Pesan Baru Dari JavaScript', 'Ini adalah pesan yang dibuat secara otomatis oleh fungsi addNewMessage.');
+    }, 5000);
+
+    // Menambahkan pesan maintenance setelah 10 detik
+    setTimeout(() => {
+        addNewMessage('Pemberitahuan: Maintenance Server', 'Server akan ditutup pada hari Jumat untuk pemeliharaan rutin. Mohon maaf atas ketidaknyamanan ini.');
+    }, 10000); // 10 detik
+    
     hideLoader(); 
 });

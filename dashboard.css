@@ -693,3 +693,93 @@ body.no-scroll {
     visibility: hidden;
     pointer-events: none;
 }
+
+/* --- CSS untuk Notifikasi Pesan Baru dengan Animasi --- */
+.inbox-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100px);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.inbox-notification.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.notification-text {
+    flex-grow: 1;
+}
+
+/* Container untuk SVG */
+.inbox-notification .checkmark-container {
+    width: 24px;
+    height: 24px;
+    display: none; /* Sembunyikan secara default */
+}
+
+/* Tampilkan container saat animasi dimulai */
+.inbox-notification.animate .checkmark-container {
+    display: block;
+}
+
+.checkmark {
+    width: 100%;
+    height: 100%;
+    transform: scale(0.8);
+}
+
+/* Garis Lingkaran */
+.checkmark-circle {
+    fill: none;
+    stroke: white;
+    stroke-width: 3;
+    stroke-dasharray: 70;
+    stroke-dashoffset: 70;
+}
+
+/* Garis Centang */
+.checkmark-path {
+    fill: none;
+    stroke: white;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+}
+
+/* Animasi saat kelas 'animate' ditambahkan */
+.inbox-notification.animate .checkmark-circle {
+    animation: draw-circle 0.5s ease-in-out forwards;
+}
+
+.inbox-notification.animate .checkmark-path {
+    animation: draw-path 0.3s ease-in-out 0.5s forwards; /* Mulai setelah lingkaran selesai */
+}
+
+@keyframes draw-circle {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes draw-path {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
