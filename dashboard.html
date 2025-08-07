@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DitzMarketplace - Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="maintenance.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
         </div>
         <div class="profile">
             <img src="ditzz.jpg" alt="Profil Pengguna">
-            <button class="menu-toggle" onclick="toggleMenu()">
+<button class="menu-toggle">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -196,7 +197,15 @@
     </div>
 </div>
 
+<div id="maintenance-overlay">
+    <div class="maintenance-content">
+        <i class="fas fa-tools icon"></i> <h2>Perhatian!</h2>
+        <p>Kami sedang melakukan pemeliharaan rutin. Server akan di tutup sementara untuk memastikan layanan kami berjalan optimal. Mohon maaf atas ketidaknyamanan ini.</p>
+        <p>Silakan kembali di lain waktu.</p>
+    </div>
+</div>
 
      <script src="dashboard.js"></script>
+     <script src="maintenance.js"></script>
  </body>
  </html>

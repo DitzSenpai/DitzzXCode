@@ -392,6 +392,34 @@ body.no-scroll {
 
 
 /* --- GAYA UNTUK INBOX SEPERTI DAFTAR PESAN --- */
+/* Styling untuk tombol hapus */
+.inbox-message-item .message-actions {
+    display: flex;
+    align-items: center;
+}
+
+.inbox-message-item .delete-btn {
+    background-color: #f44336; /* Warna merah */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.inbox-message-item .delete-btn:hover {
+    background-color: #d32f2f; /* Warna merah yang lebih gelap saat di-hover */
+}
+
+.inbox-message-item .delete-btn i {
+    font-size: 14px;
+}
+
 .inbox-list-header {
     display: flex;
     align-items: center;

@@ -3,16 +3,65 @@
 // =======================================================
 
 // Data pesan inbox lokal sebagai ganti database
-let localInboxData = [
-    {
-        _id: '1',
-        title: 'Selamat Datang di Dashboard!',
-        message: 'Halo, ini adalah pesan pertama di inbox Anda. Silakan jelajahi fitur-fitur yang ada.',
-        createdAt: new Date().toISOString()
-    }
-];
+let localInboxData = [];
+const INBOX_STORAGE_KEY = 'dashboard_inbox_messages';
 
 let notificationTimeout;
+
+// FUNGSI UNTUK MENYIMPAN INBOX KE LOCALSTORAGE
+function saveInboxToLocalStorage() {
+    try {
+        localStorage.setItem(INBOX_STORAGE_KEY, JSON.stringify(localInboxData));
+    } catch (error) {
+        console.error('Gagal menyimpan inbox ke localStorage:', error);
+    }
+}
+
+// FUNGSI UNTUK MEMUAT INBOX DARI LOCALSTORAGE
+function loadInboxFromLocalStorage() {
+    try {
+        const storedData = localStorage.getItem(INBOX_STORAGE_KEY);
+        if (storedData) {
+            localInboxData = JSON.parse(storedData);
+        } else {
+            localInboxData = [];
+        }
+
+        if (localInboxData.length === 0) {
+            console.log("Inbox kosong, menambahkan pesan default...");
+            addDefaultMessages();
+        }
+
+    } catch (error) {
+        console.error('Gagal memuat inbox dari localStorage:', error);
+        localInboxData = [];
+    }
+}
+
+// FUNGSI UNTUK MENAMBAHKAN SEMUA PESAN DEFAULT
+function addDefaultMessages() {
+    localInboxData = [
+        {
+            _id: '1',
+            title: 'Selamat Datang di Dashboard!',
+            message: 'Halo, ini adalah pesan pertama di inbox Anda. Silakan jelajahi fitur-fitur yang ada.',
+            createdAt: new Date().toISOString()
+        },
+        {
+            _id: '3',
+            title: 'Pembaruan: Tampilan Inbox',
+            message: 'Kami telah memperbarui tampilan inbox agar lebih modern, menarik, dan mudah digunakan.',
+            createdAt: new Date().toISOString()
+        },
+        {
+            _id: '2',
+            title: 'Pemberitahuan: Maintenance Server',
+            message: 'Server akan ditutup pada hari Jumat untuk pemeliharaan rutin. Mohon maaf atas ketidaknyamanan ini.',
+            createdAt: new Date().toISOString()
+        }
+    ];
+    saveInboxToLocalStorage();
+}
 
 function toggleFaq(element) {
     element.classList.toggle('active');
@@ -44,6 +93,7 @@ function updateTime() {
     timeElement.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
+// FUNGSI UNTUK MEMUNCULKAN DAN MENYEMBUNYIKAN SIDEBAR
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
@@ -86,10 +136,6 @@ function showPage(pageId, link) {
         });
         if (link) {
             link.parentNode.classList.add('active');
-        }
-
-        if (pageId === 'inbox-view') {
-            loadInboxSubmissions();
         }
 
         if (window.innerWidth <= 768) {
@@ -151,6 +197,7 @@ function addNewMessage(title, message) {
     
     localInboxData.push(newMessage);
     showNewMessageNotification();
+    saveInboxToLocalStorage();
     
     if (document.getElementById('inbox-view').style.display === 'block') {
         loadInboxSubmissions();
@@ -167,36 +214,33 @@ function loadInboxSubmissions() {
         localInboxData.forEach(submission => {
             const messageItem = document.createElement('div');
             messageItem.classList.add('inbox-message-item');
-            messageItem.dataset.title = submission.title;
-            messageItem.dataset.message = submission.message;
             messageItem.dataset.id = submission._id;
 
             const timestamp = new Date(submission.createdAt).toLocaleString();
 
             messageItem.innerHTML = `
-                <div class="message-text-wrapper">
+                <div class="message-content">
                     <h4>${submission.title}</h4>
                     <p>${submission.message}</p>
                     <div class="message-meta">
                         <span>${timestamp}</span>
-                        <div class="delete-actions">
-                            <button class="delete-btn" data-id="${submission._id}">
-                                <i class="fas fa-trash"></i> Hapus
-                            </button>
-                        </div>
                     </div>
+                </div>
+                <div class="message-actions">
+                    <button class="delete-btn" data-id="${submission._id}">
+                        <i class="fas fa-trash-alt"></i> Hapus
+                    </button>
                 </div>
             `;
             inboxContainer.appendChild(messageItem);
         });
 
-        inboxContainer.querySelectorAll('.inbox-message-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                if (!e.target.closest('.delete-actions')) {
-                    const title = item.dataset.title;
-                    const message = item.dataset.message;
-                    openMessageModal(title, message);
-                }
+        inboxContainer.querySelectorAll('.message-content').forEach(item => {
+            item.addEventListener('click', () => {
+                const parentItem = item.closest('.inbox-message-item');
+                const title = parentItem.querySelector('h4').textContent;
+                const message = parentItem.querySelector('p').textContent;
+                openMessageModal(title, message);
             });
         });
 
@@ -216,6 +260,7 @@ function loadInboxSubmissions() {
 
 function deleteInboxItem(id) {
     localInboxData = localInboxData.filter(item => item._id !== id);
+    saveInboxToLocalStorage();
     loadInboxSubmissions();
 }
 
@@ -241,6 +286,15 @@ function hideLoader() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // KODE BARU INI LEBIH ANDAL UNTUK MENGAKTIFKAN TOMBOL NAVBAR
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle) {
+        menuToggle.addEventListener('click', toggleMenu);
+    }
+    
+    loadInboxFromLocalStorage();
+    loadInboxSubmissions();
+    
     if (document.getElementById('dashboard-view')) {
         fetchIpAddress();
         updateTime();
@@ -254,15 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
             openModal('partner-owner-modal');
         });
     }
-
-    setTimeout(() => {
-      addNewMessage('Pesan Baru Dari JavaScript', 'Ini adalah pesan yang dibuat secara otomatis oleh fungsi addNewMessage.');
-    }, 5000);
-
-    // Menambahkan pesan maintenance setelah 10 detik
-    setTimeout(() => {
-        addNewMessage('Pemberitahuan: Maintenance Server', 'Server akan ditutup pada hari Jumat untuk pemeliharaan rutin. Mohon maaf atas ketidaknyamanan ini.');
-    }, 10000); // 10 detik
     
     hideLoader(); 
 });
