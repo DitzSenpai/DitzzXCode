@@ -45,6 +45,7 @@ function addDefaultMessages() {
     addNewMessage('Selamat Datang di Dashboard!', 'Halo, ini adalah pesan pertama di inbox Anda. Silakan jelajahi fitur-fitur yang ada.');
     addNewMessage('Pembaruan: Tampilan Inbox', 'Kami telah memperbarui tampilan inbox agar lebih modern, menarik, dan mudah digunakan.');
     addNewMessage('Pemberitahuan: Maintenance Server', 'Server akan ditutup pada hari Jumat untuk pemeliharaan rutin. Mohon maaf atas ketidaknyamanan ini.');
+    addNewMessage('Halo Semua!', 'Halo Selamat datang di Website ku');
     // --- AKHIR KODE PERBAIKAN ---
 }
 
