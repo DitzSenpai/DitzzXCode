@@ -40,27 +40,12 @@ function loadInboxFromLocalStorage() {
 
 // FUNGSI UNTUK MENAMBAHKAN SEMUA PESAN DEFAULT
 function addDefaultMessages() {
-    localInboxData = [
-        {
-            _id: '1',
-            title: 'Selamat Datang di Dashboard!',
-            message: 'Halo, ini adalah pesan pertama di inbox Anda. Silakan jelajahi fitur-fitur yang ada.',
-            createdAt: new Date().toISOString()
-        },
-        {
-            _id: '3',
-            title: 'Pembaruan: Tampilan Inbox',
-            message: 'Kami telah memperbarui tampilan inbox agar lebih modern, menarik, dan mudah digunakan.',
-            createdAt: new Date().toISOString()
-        },
-        {
-            _id: '2',
-            title: 'Pemberitahuan: Maintenance Server',
-            message: 'Server akan ditutup pada hari Jumat untuk pemeliharaan rutin. Mohon maaf atas ketidaknyamanan ini.',
-            createdAt: new Date().toISOString()
-        }
-    ];
-    saveInboxToLocalStorage();
+    // --- KODE PERBAIKAN DI SINI ---
+    // Gunakan fungsi addNewMessage() untuk memicu notifikasi
+    addNewMessage('Selamat Datang di Dashboard!', 'Halo, ini adalah pesan pertama di inbox Anda. Silakan jelajahi fitur-fitur yang ada.');
+    addNewMessage('Pembaruan: Tampilan Inbox', 'Kami telah memperbarui tampilan inbox agar lebih modern, menarik, dan mudah digunakan.');
+    addNewMessage('Pemberitahuan: Maintenance Server', 'Server akan ditutup pada hari Jumat untuk pemeliharaan rutin. Mohon maaf atas ketidaknyamanan ini.');
+    // --- AKHIR KODE PERBAIKAN ---
 }
 
 function toggleFaq(element) {
@@ -286,7 +271,6 @@ function hideLoader() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // KODE BARU INI LEBIH ANDAL UNTUK MENGAKTIFKAN TOMBOL NAVBAR
     const menuToggle = document.querySelector('.menu-toggle');
     if (menuToggle) {
         menuToggle.addEventListener('click', toggleMenu);
