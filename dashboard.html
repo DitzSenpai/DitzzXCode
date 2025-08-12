@@ -54,6 +54,7 @@
                     </ul>
                 </li>
                 <li><a href="#" onclick="showPage('store-view', this)"><i class="fas fa-store"></i>Store</a></li>
+                <li><a href="#" onclick="showPage('apk-mod-view', this)"><i class="fas fa-download"></i>Apk Mod</a></li>
                 <li><a href="#"><i class="fas fa-search"></i>Search API</a></li>
                 <li><a href="#"><i class="fas fa-cat"></i>Anime & Manga API</a></li>
                 <li><a href="#"><i class="fas fa-image"></i>Random Image API</a></li>
@@ -85,6 +86,7 @@
                     </div>
                 </div>
             </div>
+
 
             <div id="inbox-view" class="content-view" style="display: none;">
                 <div class="inbox-list-header">
@@ -155,6 +157,35 @@
                 </section>
             </div>
             
+<div id="apk-mod-view" class="content-view" style="display: none;">
+    <div class="dashboard-header">
+        <i class="fas fa-download"></i>
+        <h2>Apk Mod</h2>
+    </div>
+    <section class="apk-section">
+        <div class="container">
+            <p class="section-description">Unduh aplikasi modifikasi dengan fitur tambahan.</p>
+            <div class="apk-grid">
+                <div class="apk-card">
+                    <img src="ultramotion.jpeg" alt="Ultra Motion Icon">
+                    <h4>Ultra Motion (Mod)</h4>
+                    <p class="apk-desc">Fitur: Buka semua fitur premium tanpa biaya, tanpa watermark, dan tanpa iklan.</p>
+                    <a href="#" class="btn btn-download">Unduh Sekarang</a>
+                    <a href="#" class="btn btn-more" onclick="openModal('ultra-motion-modal')">Selengkapnya</a>
+                </div>
+
+                <div class="apk-card">
+                    <img src="https://via.placeholder.com/100x100.png?text=App+Icon" alt="Apk Mod Icon">
+                    <h4>Nama Aplikasi Mod 2</h4>
+                    <p class="apk-desc">Fitur: [Deskripsi fitur mod singkat]</p>
+                    <a href="#" class="btn btn-download">Unduh Sekarang</a>
+                </div>
+
+                </div>
+        </div>
+    </section>
+</div>
+            
             <div class="footer">
                 <p>Copyright © DitzMarketplace  All Rights Reserved</p>
             </div>
@@ -185,6 +216,30 @@
     </div>
     <div class="loader-wrapper">
     <div class="loader"></div>
+</div>
+
+<div id="ultra-motion-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" onclick="closeModal('ultra-motion-modal')">&times;</span>
+        <div class="modal-header">
+            <h2>Ultra Motion (Mod)</h2>
+            <p>Versi modifikasi dari aplikasi Alight Motion, dengan fitur-fitur premium yang sudah terbuka.</p>
+        </div>
+        <div class="modal-body">
+            <h3>Fitur Lengkap:</h3>
+            <ul>
+                <li>**Fitur Premium Terbuka:** Akses semua efek, font, dan template premium tanpa perlu berlangganan.</li>
+                <li>**Tanpa Watermark:** Tidak ada tanda air di setiap video yang Anda ekspor.</li>
+                <li>**Tanpa Iklan:** Nikmati proses editing tanpa gangguan iklan yang mengganggu.</li>
+                <li>**Render Lebih Cepat:** Peningkatan performa untuk proses render video yang lebih efisien dan cepat.</li>
+                <li>**Kunci Chroma:** Fitur layar hijau/biru yang sudah diaktifkan.</li>
+                <li>**Kustomisasi Tanpa Batas:** Gunakan font kustom, brush, dan elemen lainnya.</li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-download">Unduh Ultra Motion</a>
+        </div>
+    </div>
 </div>
 
 <div id="inbox-notification" class="inbox-notification">
