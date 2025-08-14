@@ -31,33 +31,32 @@
             <ul class="sidebar-menu">
                 <li class="active"><a href="#" onclick="showPage('dashboard-view', this)"><i class="fas fa-home"></i>Dashboard</a></li>
                 <li><a href="#" onclick="showPage('inbox-view', this)"><i class="fas fa-inbox"></i>Inbox</a></li>
+                <li><a href="#" onclick="showPage('store-view', this)"><i class="fas fa-store"></i>Store</a></li>
+                <li><a href="#" onclick="showPage('apk-mod-view', this)"><i class="fas fa-download"></i>Mod Apk</a></li>
                 <li class="has-submenu" onclick="toggleSubmenu(this)">
                     <a href="#"><i class="fas fa-brain"></i>A.I</a>
                     <i class="fas fa-chevron-down submenu-icon"></i>
                     <ul class="submenu">
-                        <li><a href="#">Gemini AI</a></li>
-                        <li><a href="#">Blackbox AI</a></li>
-                        <li><a href="#">CHAT GPT AI</a></li>
-                        <li><a href="#">GPT With Prompt</a></li>
+                        <li><a href="#" onclick="openApiModal('Gemini AI', 'API untuk berinteraksi dengan Gemini AI')">Gemini AI</a></li>
+                        <li><a href="#" onclick="openApiModal('Blackbox AI', 'API untuk AI Blackbox')">Blackbox AI</a></li>
+                        <li><a href="#" onclick="openApiModal('CHAT GPT AI', 'API untuk AI ChatGPT')">CHAT GPT AI</a></li>
+                        <li><a href="#" onclick="openApiModal('GPT With Prompt', 'API untuk GPT dengan custom prompt')">GPT With Prompt</a></li>
                     </ul>
                 </li>
                 <li class="has-submenu" onclick="toggleSubmenu(this)">
                     <a href="#"><i class="fas fa-download"></i>Downloader API</a>
                     <i class="fas fa-chevron-down submenu-icon"></i>
                     <ul class="submenu">
-                        <li><a href="#">YTMP3</a></li>
-                        <li><a href="#">YTMP4</a></li>
-                        <li><a href="#">YT Play</a></li>
-                        <li><a href="#">Facebook Downloader</a></li>
-                        <li><a href="#">Tiktok Downloader</a></li>
-                        <li><a href="#">Instagram Downloader</a></li>
+                        <li><a href="#" onclick="openApiModal('YTMP3', 'Unduh video YouTube dalam format MP3')">YTMP3</a></li>
+                        <li><a href="#" onclick="openApiModal('YTMP4', 'Unduh video YouTube dalam format MP4')">YTMP4</a></li>
+                        <li><a href="#" onclick="openApiModal('YT Play', 'Streaming video YouTube')">YT Play</a></li>
+                        <li><a href="#" onclick="openApiModal('Facebook Downloader', 'Unduh video dari Facebook')">Facebook Downloader</a></li>
+                        <li><a href="#" onclick="openApiModal('Tiktok Downloader', 'Unduh video dari TikTok')">Tiktok Downloader</a></li>
+                        <li><a href="#" onclick="openApiModal('Instagram Downloader', 'Unduh konten dari Instagram')">Instagram Downloader</a></li>
                     </ul>
                 </li>
-                <li><a href="#" onclick="showPage('store-view', this)"><i class="fas fa-store"></i>Store</a></li>
-                <li><a href="#" onclick="showPage('apk-mod-view', this)"><i class="fas fa-download"></i>Apk Mod</a></li>
                 <li><a href="#"><i class="fas fa-search"></i>Search API</a></li>
-                <li><a href="#"><i class="fas fa-cat"></i>Anime & Manga API</a></li>
-                <li><a href="#"><i class="fas fa-image"></i>Random Image API</a></li>
+                <li><a href="#" onclick="openApiModal('Anime & Manga API', 'API untuk berbagai informasi tentang Anime dan Manga')"><i class="fas fa-cat"></i>Anime & Manga API</a></li>
                 <li><a id="open-partner-modal" href="#"><i class="fas fa-handshake"></i>Partner Owner</a></li>
             </ul>
             <div class="sidebar-footer">
@@ -171,18 +170,29 @@
                         <p class="section-description">Unduh aplikasi modifikasi dengan fitur tambahan.</p>
                         <div class="apk-grid">
                             <div class="apk-card">
-                                <img src="image/alightmotion.jpg" alt="Ultra Motion Icon">
+                                <img src="ultramotion.jpeg" alt="Ultra Motion Icon">
                                 <h4>Ultra Motion (Mod)</h4>
                                 <p class="apk-desc">Fitur: Buka semua fitur premium tanpa biaya, tanpa watermark, dan tanpa iklan.</p>
-                                <a href="#" class="btn btn-download">Unduh Sekarang</a>
-                                <a href="#" class="btn btn-more" onclick="openModal('ultra-motion-modal')">Selengkapnya</a>
-                            </div>
-
-                            <div class="apk-card">
-                                <img src="https://via.placeholder.com/100x100.png?text=App+Icon" alt="Apk Mod Icon">
-                                <h4>Nama Aplikasi Mod 2</h4>
-                                <p class="apk-desc">Fitur: [Deskripsi fitur mod singkat]</p>
-                                <a href="#" class="btn btn-download">Unduh Sekarang</a>
+                                
+                                <div class="button-stack">
+                                    <div class="download-container">
+                                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
+                                        <div class="password-form">
+                                            <div class="password-boxes-container">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                            </div>
+                                            <button class="btn btn-submit" 
+                                                    data-link="https://sfile.mobi/4qQABe1QE8q" 
+                                                    onclick="checkFullPassword(this)">Kirim</button>
+                                            <span class="password-note">Password: ditzz</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-more" onclick="openModal('ultra-motion-modal')">Selengkapnya</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -193,6 +203,22 @@
                 <p>Copyright © DitzMarketplace All Rights Reserved</p>
             </div>
         </main>
+    </div>
+
+    <div id="api-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('api-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 id="api-modal-title"></h2>
+                <p id="api-modal-description"></p>
+            </div>
+            <div class="modal-body">
+                <div class="api-form-container">
+                    <input type="text" class="api-input" id="api-input" placeholder="input text...">
+                    <button class="btn btn-submit" onclick="submitApiForm()">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="partner-owner-modal" class="modal">
@@ -241,7 +267,25 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <a href="#" class="btn btn-download">Unduh Ultra Motion</a>
+                <div class="button-stack">
+                    <div class="download-container">
+                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
+                        <div class="password-form">
+                            <div class="password-boxes-container">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                            </div>
+                            <button class="btn btn-submit" 
+                                    data-link="https://sfile.mobi/4qQABe1QE8q" 
+                                    onclick="checkFullPassword(this)">Kirim</button>
+                            <span class="password-note">Password: ditzz</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-more" onclick="closeModal('ultra-motion-modal')">Tutup</a>
+                </div>
             </div>
         </div>
     </div>

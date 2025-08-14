@@ -781,37 +781,6 @@ body.no-scroll {
     min-height: 40px;
 }
 
-.btn-download {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-download:hover {
-    background-color: #0056b3;
-}
-
-/* Gaya untuk tombol "Selengkapnya" */
-.btn-more {
-    display: inline-block;
-    background-color: #6c757d; /* Warna abu-abu yang lebih netral */
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-top: 15px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-more:hover {
-    background-color: #5a6268;
-}
-
 /* Penyesuaian agar tombol Unduh dan Selengkapnya bisa berdampingan */
 .apk-card a {
     display: block;
@@ -969,4 +938,141 @@ body.no-scroll {
 
 .btn-report:hover {
     background-color: #c82333;
+}
+
+/* Container untuk menempatkan tombol dalam tumpukan vertikal yang rapi */
+.button-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* GAYA UNTUK TOMBOL UNDUH DAN SELENGKAPNYA */
+.btn-download, .btn-more {
+    display: inline-block;
+    width: 100%;
+    max-width: 200px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.btn-download:hover {
+    background-color: #0056b3;
+}
+
+.btn-more {
+    background-color: #6c757d;
+}
+
+.btn-more:hover {
+    background-color: #5a6268;
+}
+
+/* GAYA UNTUK FORMULIR PASSWORD DENGAN ANIMASI */
+.password-form {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 10px;
+    margin-top: 15px;
+}
+
+.password-form.show {
+    max-height: 200px;
+    opacity: 1;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 8px;
+}
+
+/* Gaya untuk container kotak password karakter */
+.password-boxes-container {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+/* Gaya untuk setiap kotak input password karakter */
+.password-char-input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 1.2rem;
+    border: 2px solid #ced4da;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Gaya jika input benar (Hijau) */
+.password-char-input.correct {
+    border-color: #28a745;
+    background-color: #d4edda;
+}
+
+/* Gaya jika input salah (Merah) */
+.password-char-input.incorrect {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.btn-submit {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #218838;
+}
+
+.password-note {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: center;
+    margin-top: -5px;
+}
+
+/* GAYA MODAL API */
+.api-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.api-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Gaya tombol submit di modal API */
+#api-modal .btn-submit {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    background-color: #007bff;
 }
