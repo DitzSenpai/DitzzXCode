@@ -937,3 +937,36 @@ body.no-scroll {
         stroke-dashoffset: 0;
     }
 }
+
+/* --- BARU: Gaya untuk Notifikasi Lapor Link Error --- */
+
+.report-section {
+    background-color: #fff3cd; /* Warna kuning muda */
+    color: #856404; /* Warna teks cokelat */
+    border: 1px solid #ffeeba;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.report-section .report-text {
+    margin: 0 0 15px 0;
+    font-weight: 600;
+}
+
+.btn-report {
+    background-color: #dc3545; /* Warna merah */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-report:hover {
+    background-color: #c82333;
+}
