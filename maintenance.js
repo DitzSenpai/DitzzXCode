@@ -14,9 +14,9 @@ function checkMaintenanceMode() {
     const dayOfWeek = now.getDay(); // 0 = Minggu, 5 = Jumat
 
     // Atur hari dan rentang waktu untuk mode maintenance
-    const maintenanceDay = 4; // Jumat
+    const maintenanceDay = 5; // Jumat
     const startTotalMinutes = 6 * 60 + 11; // 06:12
-    const endTotalMinutes = 7 * 60;   // 07:00
+    const endTotalMinutes = 8 * 60;   // 07:00
     
     const currentTotalMinutes = now.getHours() * 60 + now.getMinutes();
 
