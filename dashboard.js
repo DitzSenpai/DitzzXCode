@@ -9,6 +9,13 @@ const INITIALIZED_FLAG_KEY = 'hasInitializedInbox';
 
 let notificationTimeout;
 
+// Objek untuk menyimpan password unik untuk setiap item (BARU)
+const itemPasswords = {
+    'terakomari': 'ditzz', // Password untuk Sc Terakomari-Md
+    'ultramotion': 'ditz', // Password untuk Ultra Motion (Mod)
+    'pixellab': 'ditz', // Password untuk Pixellab (Mod)
+};
+
 // FUNGSI UNTUK MENYIMPAN INBOX KE LOCALSTORAGE
 function saveInboxToLocalStorage() {
     try {
@@ -292,10 +299,6 @@ function hideLoader() {
     }
 }
 
-
-// Password yang benar, sesuai permintaan Anda
-const correctPassword = "Ditzz";
-
 // FUNGSI UNTUK MENGOSONGKAN SEMUA INPUT PASSWORD DAN MERESET FORM
 function resetAllPasswordInputs() {
     document.querySelectorAll('.password-char-input').forEach(input => {
@@ -310,7 +313,7 @@ function resetAllPasswordInputs() {
     });
 }
 
-// FUNGSI UNTUK MENAMPILKAN FORMULIR PASSWORD (SUDAH DIPERBAIKI)
+// FUNGSI UNTUK MENAMPILKAN FORMULIR PASSWORD
 function showPasswordForm(button) {
     const parentCard = button.closest('.apk-card');
     const passwordForm = parentCard.querySelector('.password-form');
@@ -320,6 +323,12 @@ function showPasswordForm(button) {
         passwordForm.classList.remove('show');
         downloadButton.textContent = 'Unduh Sekarang';
     } else {
+        // Sembunyikan semua form password lainnya sebelum menampilkan yang ini
+        document.querySelectorAll('.password-form').forEach(form => {
+            if (form !== passwordForm) {
+                form.classList.remove('show');
+            }
+        });
         passwordForm.classList.add('show');
         downloadButton.textContent = 'Batal';
         // Memberikan fokus ke input pertama saat form muncul
@@ -335,28 +344,36 @@ function checkFullPassword(button) {
     const parentCard = button.closest('.apk-card');
     const passwordInputs = parentCard.querySelectorAll('.password-char-input');
     const downloadLink = button.dataset.link;
-    let isCorrect = true;
+    const itemId = button.dataset.id; 
 
-    // Periksa setiap karakter dan tambahkan kelas warna
-    for (let i = 0; i < passwordInputs.length; i++) {
-        const input = passwordInputs[i];
-        if (input.value && i < correctPassword.length && input.value.toLowerCase() === correctPassword[i].toLowerCase()) {
-            input.classList.remove('incorrect');
-            input.classList.add('correct');
-        } else {
-            input.classList.remove('correct');
-            input.classList.add('incorrect');
-            isCorrect = false;
-        }
+    const correctPassword = itemPasswords[itemId];
+
+    if (!correctPassword) {
+        alert('Item tidak ditemukan atau password tidak ada.');
+        return;
     }
 
-    if (isCorrect) {
-        // Jika semua karakter benar, arahkan ke link unduhan
+    let enteredPassword = '';
+
+    passwordInputs.forEach(input => {
+        enteredPassword += input.value;
+    });
+
+    if (enteredPassword === correctPassword) {
+        for (let i = 0; i < passwordInputs.length; i++) {
+            passwordInputs[i].classList.remove('incorrect');
+            passwordInputs[i].classList.add('correct');
+        }
         setTimeout(() => {
             window.location.href = downloadLink;
         }, 500); 
     } else {
-        // Jika ada yang salah, tampilkan pesan peringatan
+        for (let i = 0; i < passwordInputs.length; i++) {
+            if (passwordInputs[i].value !== correctPassword[i]) {
+                 passwordInputs[i].classList.remove('correct');
+                 passwordInputs[i].classList.add('incorrect');
+            }
+        }
         alert('Password salah. Silakan coba lagi!');
     }
 }
@@ -379,10 +396,8 @@ function submitApiForm() {
     if (apiInput.value.trim() === '') {
         alert('Input tidak boleh kosong!');
     } else {
-        // Logika untuk menampilkan error
         alert('Error: HTTP error! status: 500');
         
-        // Kosongkan input dan tutup modal setelah simulasi error
         apiInput.value = '';
         closeModal('api-modal');
     }
@@ -418,9 +433,6 @@ function initDashboard() {
 
 // Gunakan event 'pageshow' untuk menangani kembali dari cache (bfcache)
 window.addEventListener('pageshow', (event) => {
-    // Panggil fungsi reset setiap kali halaman muncul
     resetAllPasswordInputs();
-    
-    // Panggil fungsi inisialisasi utama
     initDashboard();
 });

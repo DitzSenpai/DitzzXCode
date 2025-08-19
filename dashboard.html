@@ -25,12 +25,14 @@
     <div class="main-container">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-            <h3>><</h3>
+                <img src="error.jpg" alt="Logo DitzMarketplace">
+                <span class="logo-text">DitzMarketplace</span>
             </div>
             <ul class="sidebar-menu">
                 <li class="active"><a href="#" onclick="showPage('dashboard-view', this)"><i class="fas fa-home"></i>Dashboard</a></li>
                 <li><a href="#" onclick="showPage('inbox-view', this)"><i class="fas fa-inbox"></i>Inbox</a></li>
                 <li><a href="#" onclick="showPage('store-view', this)"><i class="fas fa-store"></i>Store</a></li>
+                <li><a href="#" onclick="showPage('sc-bot-view', this)"><i class="fas fa-robot"></i>Sc Bot Free</a></li>
                 <li><a href="#" onclick="showPage('apk-mod-view', this)"><i class="fas fa-download"></i>Mod Apk</a></li>
                 <li class="has-submenu" onclick="toggleSubmenu(this)">
                     <a href="#"><i class="fas fa-brain"></i>A.I</a>
@@ -126,25 +128,49 @@
                         </div>
                     </div>
                 </section>
-        
-                <section class="product-section">
+            </div>
+            
+            <div id="sc-bot-view" class="content-view" style="display: none;">
+                <div class="dashboard-header">
+                    <i class="fas fa-robot"></i>
+                    <h2>Script Bot Free</h2>
+                </div>
+                <div class="report-section">
+                    <p class="report-text">Jika ada link error atau tidak bisa diunduh, tolong laporkan ke admin.</p>
+                    <button class="btn btn-report" onclick="openModal('report-modal')">
+                        Lapor Link Error
+                    </button>
+                </div>
+                
+                <section class="apk-section">
                     <div class="container">
-                        <h3 class="product-title">Script Bot WhatsApp</h3>
-                        <p class="section-description">Dapatkan script bot WhatsApp dengan berbagai fitur menarik.</p>
-                        <div class="product-grid">
-                            <div class="product-card">
-                                <img src="https://via.placeholder.com/300x200.png?text=Script+WA+Standar" alt="Script Bot WA Standar">
-                                <h4>Script WA Standar</h4>
-                                <p class="price">Rp 35.000</p>
-                                <p class="product-desc">Script bot dengan fitur dasar yang mudah dioperasikan.</p>
-                                <a href="#" class="btn btn-buy">Beli Sekarang</a>
-                            </div>
-                            <div class="product-card">
-                                <img src="https://via.placeholder.com/300x200.png?text=Script+WA+Premium" alt="Script Bot WA Premium">
-                                <h4>Script WA Premium</h4>
-                                <p class="price">Rp 75.000</p>
-                                <p class="product-desc">Fitur lengkap, kustomisasi tinggi, dan pembaruan berkala.</p>
-                                <a href="#" class="btn btn-buy">Beli Sekarang</a>
+                        <p class="section-description">Unduh script bot WhatsApp gratis dengan fitur premium.</p>
+                        <div class="apk-grid">
+                            <div class="apk-card">
+                                <img src="terakomari.jpeg" alt="Sc Terakomari-Md Icon">
+                                <h4>Sc Terakomari-Md</h4>
+                                <p class="apk-desc">Fitur: Multi-user, auto-reply, fitur AI dan banyak lagi.</p>
+                                
+                                <div class="button-stack">
+                                    <div class="download-container">
+                                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
+                                        <div class="password-form">
+                                            <div class="password-boxes-container">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                            </div>
+                                            <button class="btn btn-submit" 
+                                                    data-link="https://sfl.gl/DeSdeq" 
+                                                    data-id="terakomari"  
+                                                    onclick="checkFullPassword(this)">Kirim</button>
+                                            <span class="password-note">Password: Ditzz</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-more" onclick="openModal('sc-bot-modal')">Selengkapnya</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,17 +208,43 @@
                                                 <input type="text" class="password-char-input" maxlength="1">
                                                 <input type="text" class="password-char-input" maxlength="1">
                                                 <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
                                             </div>
                                             <button class="btn btn-submit" 
                                                     data-link="https://sfile.mobi/4qQABe1QE8q" 
+                                                    data-id="ultramotion"
                                                     onclick="checkFullPassword(this)">Kirim</button>
-                                            <span class="password-note">Password: ditzz</span>
+                                            <span class="password-note">Password: Ditz</span>
                                         </div>
                                     </div>
                                     <a href="#" class="btn btn-more" onclick="openModal('ultra-motion-modal')">Selengkapnya</a>
                                 </div>
                             </div>
+                            
+                            <div class="apk-card">
+                                <img src="1755605370031.jpg" alt="Pixellab Icon">
+                                <h4>Pixellab (Mod)</h4>
+                                <p class="apk-desc">Fitur: Versi premium tidak terbatas, membuka semua fitur dan aset tanpa biaya.</p>
+                                <div class="button-stack">
+                                    <div class="download-container">
+                                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
+                                        <div class="password-form">
+                                            <div class="password-boxes-container">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                                <input type="text" class="password-char-input" maxlength="1">
+                                            </div>
+                                            <button class="btn btn-submit" 
+                                                    data-link="https://safefileku.com/download/zFXcMKIbCdTLAgAw" 
+                                                    data-id="pixellab"
+                                                    onclick="checkFullPassword(this)">Kirim</button>
+                                            <span class="password-note">Password: Ditz</span>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-more" onclick="openModal('pixellab-modal')">Selengkapnya</a>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </section>
@@ -204,6 +256,46 @@
         </main>
     </div>
 
+    <div id="pixellab-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('pixellab-modal')">&times;</span>
+            <div class="modal-header">
+                <h2>Pixellab (Mod)</h2>
+                <p>Modifikasi total dari seorang YouTuber dengan tema anime Jujutsu Kaisen!</p>
+            </div>
+            <div class="modal-body">
+                <h3>Fitur Mod:</h3>
+                <ul>
+                    <li>**Aset dan Font Premium Terbuka:** Nikmati ribuan aset, font, dan template berbayar secara gratis.</li>
+                    <li>**Tanpa Iklan:** Pengalaman editing yang lancar tanpa gangguan iklan pop-up yang mengganggu.</li>
+                    <li>**Tanpa Watermark:** Ekspor hasil desain Anda tanpa adanya tanda air Pixellab.</li>
+                    <li>**Tambahan Fitur Eksklusif:** Peningkatan performa dan beberapa fitur unik yang tidak ada di versi resmi.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="button-stack">
+                    <div class="download-container">
+                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
+                        <div class="password-form">
+                            <div class="password-boxes-container">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                            </div>
+                            <button class="btn btn-submit" 
+                                    data-link="https://safefileku.com/download/zFXcMKIbCdTLAgAw" 
+                                    data-id="pixellab"
+                                    onclick="checkFullPassword(this)">Kirim</button>
+                            <span class="password-note">Password: Ditz</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-more" onclick="closeModal('pixellab-modal')">Tutup</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div id="api-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('api-modal')">&times;</span>
@@ -243,8 +335,46 @@
         </div>
     </div>
     
-    <div class="loader-wrapper">
-        <div class="loader"></div>
+    <div id="sc-bot-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('sc-bot-modal')">&times;</span>
+            <div class="modal-header">
+                <h2>Sc Terakomari-Md</h2>
+                <p>Script bot WhatsApp gratis dengan fitur premium yang mudah digunakan.</p>
+            </div>
+            <div class="modal-body">
+                <h3>Fitur Lengkap:</h3>
+                <ul>
+                    <li>**Multi-User:** Dapat digunakan oleh banyak pengguna sekaligus.</li>
+                    <li>**Auto-Reply:** Fitur balasan otomatis yang dapat dikustomisasi.</li>
+                    <li>**Fitur AI:** Integrasi dengan berbagai layanan AI untuk fitur canggih.</li>
+                    <li>**Fitur Premium:** Akses semua fitur premium tanpa biaya.</li>
+                    <li>**Mudah Dijalankan:** Petunjuk instalasi yang sederhana dan jelas.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <div class="button-stack">
+                    <div class="download-container">
+                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
+                        <div class="password-form">
+                            <div class="password-boxes-container">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                                <input type="text" class="password-char-input" maxlength="1">
+                            </div>
+                            <button class="btn btn-submit" 
+                                    data-link="https://sfl.gl/DeSdeq" 
+                                    data-id="terakomari"  
+                                    onclick="checkFullPassword(this)">Kirim</button>
+                            <span class="password-note">Password: Ditzz</span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-more" onclick="closeModal('sc-bot-modal')">Tutup</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="ultra-motion-modal" class="modal">
@@ -275,12 +405,12 @@
                                 <input type="text" class="password-char-input" maxlength="1">
                                 <input type="text" class="password-char-input" maxlength="1">
                                 <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
                             </div>
                             <button class="btn btn-submit" 
                                     data-link="https://sfile.mobi/4qQABe1QE8q" 
+                                    data-id="ultramotion"
                                     onclick="checkFullPassword(this)">Kirim</button>
-                            <span class="password-note">Password: ditzz</span>
+                            <span class="password-note">Password: Ditz</span>
                         </div>
                     </div>
                     <a href="#" class="btn btn-more" onclick="closeModal('ultra-motion-modal')">Tutup</a>
@@ -336,5 +466,6 @@
 
     <script src="dashboard.js"></script>
     <script src="maintenance.js"></script>
+    <script src="search.js"></script>
 </body>
 </html>
