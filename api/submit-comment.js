@@ -4,7 +4,7 @@ const { Octokit } = require("@octokit/core");
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const REPO_OWNER = "DitzSenpai"; // GANTI_INI dengan username GitHub Anda
 const REPO_NAME = "DitzzXCode"; // GANTI_INI dengan nama repositori Anda
-const FILE_PATH = "data/comments.json"; // GANTI_INI jika path file Anda berbeda
+const FILE_PATH = "../data/comments.json"; // GANTI_INI jika path file Anda berbeda
 
 // Inisialisasi Octokit
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
