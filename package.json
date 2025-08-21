@@ -1,12 +1,12 @@
 {
-  "name": "ditzmarketplace-api",
+  "name": "ditz-marketplace",
   "version": "1.0.0",
-  "description": "Backend for DitzMarketplace",
-  "main": "api/create.js",
+  "description": "Website DitzMarketplace",
+  "main": "index.html",
   "scripts": {
-    "start": "node api/create.js"
+    "start": "npx vercel dev"
   },
   "dependencies": {
-    "mongodb": "^6.8.0"
+    "@octokit/core": "^6.1.2"
   }
 }
