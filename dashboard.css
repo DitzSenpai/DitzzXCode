@@ -1,3 +1,4 @@
+/* GAYA UMUM */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 :root {
@@ -6,6 +7,10 @@
     --text-color: #333;
     --card1-gradient: linear-gradient(135deg, #00BFFF, #1E90FF);
     --card4-gradient: linear-gradient(135deg, #ef488a, #f05480);
+    --primary-color: #3478db;
+    --secondary-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f1c40f;
 }
 
 body {
@@ -17,7 +22,6 @@ body {
     line-height: 1.6;
 }
 
-/* Pastikan body tidak bisa di-scroll saat overlay aktif */
 body.no-scroll {
     overflow: hidden !important;
 }
@@ -135,7 +139,7 @@ body.no-scroll {
 
 .sidebar-menu li.active a {
     background-color: #e6f0ff;
-    color: #3478db;
+    color: var(--primary-color);
 }
 
 .sidebar-menu a i {
@@ -307,7 +311,7 @@ body.no-scroll {
 .product-card .price {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #3478db;
+    color: var(--primary-color);
     margin-bottom: 10px;
 }
 
@@ -319,7 +323,7 @@ body.no-scroll {
 }
 
 .btn-buy {
-    background-color: #2ecc71;
+    background-color: var(--secondary-color);
     color: #fff;
     border: none;
     padding: 10px 25px;
@@ -377,7 +381,7 @@ body.no-scroll {
     display: block;
     width: 100%;
     padding: 15px;
-    background-color: #3478db;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -400,7 +404,7 @@ body.no-scroll {
 }
 
 .inbox-message-item .delete-btn {
-    background-color: #f44336; /* Warna merah */
+    background-color: var(--danger-color);
     color: white;
     border: none;
     border-radius: 5px;
@@ -414,7 +418,7 @@ body.no-scroll {
 }
 
 .inbox-message-item .delete-btn:hover {
-    background-color: #d32f2f; /* Warna merah yang lebih gelap saat di-hover */
+    background-color: #d32f2f;
 }
 
 .inbox-message-item .delete-btn i {
@@ -433,7 +437,7 @@ body.no-scroll {
 
 .inbox-list-header i {
     font-size: 1.5rem;
-    color: #3478db;
+    color: var(--primary-color);
     margin-right: 15px;
 }
 
@@ -458,7 +462,7 @@ body.no-scroll {
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border-left: 5px solid #3478db;
+    border-left: 5px solid var(--primary-color);
     position: relative;
     transition: background-color 0.2s;
     cursor: pointer;
@@ -522,7 +526,7 @@ body.no-scroll {
 }
 
 .hard-delete-btn {
-    color: #e74c3c;
+    color: var(--danger-color);
 }
 
 .hard-delete-btn:hover {
@@ -564,7 +568,7 @@ body.no-scroll {
     }
 }
 
-
+/* GAYA MODAL UMUM */
 .modal {
     display: flex;
     justify-content: center;
@@ -589,10 +593,10 @@ body.no-scroll {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: var(--card-bg);
     padding: 30px;
     border-radius: 10px;
-    width: 80%;
+    width: 90%;
     max-width: 700px;
     position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -603,7 +607,7 @@ body.no-scroll {
 
     display: flex;
     flex-direction: column;
-    max-height: 90vh; /* Maksimal tinggi 90% dari viewport height */
+    max-height: 90vh;
 }
 
 .modal.show .modal-content {
@@ -763,9 +767,10 @@ body.no-scroll {
 }
 
 .apk-card img {
-    width: 80px;
-    height: 80px;
-    border-radius: 15px;
+    width: 100%; /* Lebar gambar akan 100% dari parent-nya */
+    aspect-ratio: 16 / 9; /* Ini adalah kunci untuk rasio 16:9 */
+    object-fit: cover; /* Ini akan memangkas gambar agar pas dan tidak gepeng */
+    border-radius: 10px; /* Gunakan border-radius yang lebih besar agar terlihat bagus */
     margin-bottom: 15px;
 }
 
@@ -781,10 +786,9 @@ body.no-scroll {
     min-height: 40px;
 }
 
-/* Penyesuaian agar tombol Unduh dan Selengkapnya bisa berdampingan */
 .apk-card a {
     display: block;
-    margin-bottom: 10px; /* Tambahkan sedikit jarak antar tombol */
+    margin-bottom: 10px;
 }
 
 /* Gaya Pop-up untuk Deskripsi Fitur */
@@ -797,7 +801,6 @@ body.no-scroll {
     color: #34495e;
 }
 
-/* Tambahan untuk membuat body modal bisa di-scroll */
 .modal-body {
     overflow-y: auto;
     padding: 0 10px;
@@ -852,14 +855,12 @@ body.no-scroll {
     flex-grow: 1;
 }
 
-/* Container untuk SVG */
 .inbox-notification .checkmark-container {
     width: 24px;
     height: 24px;
-    display: none; /* Sembunyikan secara default */
+    display: none;
 }
 
-/* Tampilkan container saat animasi dimulai */
 .inbox-notification.animate .checkmark-container {
     display: block;
 }
@@ -870,7 +871,6 @@ body.no-scroll {
     transform: scale(0.8);
 }
 
-/* Garis Lingkaran */
 .checkmark-circle {
     fill: none;
     stroke: white;
@@ -879,7 +879,6 @@ body.no-scroll {
     stroke-dashoffset: 70;
 }
 
-/* Garis Centang */
 .checkmark-path {
     fill: none;
     stroke: white;
@@ -890,7 +889,6 @@ body.no-scroll {
     stroke-dashoffset: 24;
 }
 
-/* Animasi saat kelas 'animate' ditambahkan */
 .inbox-notification.animate .checkmark-circle {
     animation: draw-circle 0.5s ease-in-out forwards;
 }
@@ -907,11 +905,9 @@ body.no-scroll {
     }
 }
 
-/* --- BARU: Gaya untuk Notifikasi Lapor Link Error --- */
-
 .report-section {
-    background-color: #fff3cd; /* Warna kuning muda */
-    color: #856404; /* Warna teks cokelat */
+    background-color: var(--warning-color);
+    color: #856404;
     border: 1px solid #ffeeba;
     border-radius: 8px;
     padding: 20px;
@@ -925,7 +921,7 @@ body.no-scroll {
 }
 
 .btn-report {
-    background-color: #dc3545; /* Warna merah */
+    background-color: var(--danger-color);
     color: white;
     border: none;
     padding: 12px 25px;
@@ -940,7 +936,6 @@ body.no-scroll {
     background-color: #c82333;
 }
 
-/* Container untuk menempatkan tombol dalam tumpukan vertikal yang rapi */
 .button-stack {
     display: flex;
     flex-direction: column;
@@ -954,7 +949,7 @@ body.no-scroll {
     display: inline-block;
     width: 100%;
     max-width: 200px;
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
@@ -976,80 +971,6 @@ body.no-scroll {
 
 .btn-more:hover {
     background-color: #5a6268;
-}
-
-/* GAYA UNTUK FORMULIR PASSWORD DENGAN ANIMASI */
-.password-form {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0 10px;
-    margin-top: 15px;
-}
-
-.password-form.show {
-    max-height: 200px;
-    opacity: 1;
-    padding: 10px;
-    background-color: #e9ecef;
-    border-radius: 8px;
-}
-
-/* Gaya untuk container kotak password karakter */
-.password-boxes-container {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 10px;
-}
-
-/* Gaya untuk setiap kotak input password karakter */
-.password-char-input {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    font-size: 1.2rem;
-    border: 2px solid #ced4da;
-    border-radius: 5px;
-    background-color: #fff;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-/* Gaya jika input benar (Hijau) */
-.password-char-input.correct {
-    border-color: #28a745;
-    background-color: #d4edda;
-}
-
-/* Gaya jika input salah (Merah) */
-.password-char-input.incorrect {
-    border-color: #dc3545;
-    background-color: #f8d7da;
-}
-
-.btn-submit {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-submit:hover {
-    background-color: #218838;
-}
-
-.password-note {
-    font-size: 0.8rem;
-    color: #6c757d;
-    text-align: center;
-    margin-top: -5px;
 }
 
 /* GAYA MODAL API */
@@ -1074,5 +995,191 @@ body.no-scroll {
     width: auto;
     padding: 8px 16px;
     font-size: 0.9rem;
-    background-color: #007bff;
+    background-color: var(--primary-color);
+}
+
+/* GAYA UNTUK MODAL DOWNLOAD */
+#download-options-modal .modal-content {
+    max-width: 450px;
+    padding: 30px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+#download-options-modal .modal-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #34495e;
+}
+
+#download-options-modal .modal-body {
+    padding: 0;
+}
+
+#download-options-modal .modal-description {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 25px;
+}
+
+.password-form-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.password-input {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    color: #333;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.password-input:focus {
+    border-color: var(--primary-color);
+    background-color: #fff;
+    outline: none;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.password-note {
+    font-size: 0.9rem;
+    color: #888;
+    text-align: center;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Gaya untuk bagian komentar secara keseluruhan */
+#comments-section {
+    padding: 20px;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-top: 30px;
+}
+
+#comments-section h3 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Gaya untuk formulir komentar */
+#comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+#comment-form label {
+    font-weight: 600;
+    color: #555;
+    display: none; /* Sembunyikan label, gunakan placeholder */
+}
+
+#comment-form input,
+#comment-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#comment-form input:focus,
+#comment-form textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(52, 120, 219, 0.5);
+    outline: none;
+}
+
+#comment-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#comment-form button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#comment-form button:hover {
+    background-color: #2a65b5;
+    transform: translateY(-2px);
+}
+
+/* Gaya untuk tampilan daftar komentar */
+#comments-display {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comment-item {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid var(--secondary-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.comment-item .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.comment-item .comment-author {
+    font-weight: 700;
+    color: #333;
+    font-size: 1rem;
+}
+
+.comment-item .comment-date {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.comment-item .comment-body {
+    color: #555;
+    line-height: 1.5;
 }

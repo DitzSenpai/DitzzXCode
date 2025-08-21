@@ -1,5 +1,5 @@
 // =======================================================
-// === Gabungan dan Perbaikan Seluruh Kode JavaScript ===
+// === Kode Final: Perbaikan dan Optimalisasi Menyeluruh ===
 // =======================================================
 
 // Data pesan inbox lokal sebagai ganti database
@@ -9,14 +9,12 @@ const INITIALIZED_FLAG_KEY = 'hasInitializedInbox';
 
 let notificationTimeout;
 
-// Objek untuk menyimpan password unik untuk setiap item (BARU)
 const itemPasswords = {
-    'terakomari': 'ditzz', // Password untuk Sc Terakomari-Md
-    'ultramotion': 'ditz', // Password untuk Ultra Motion (Mod)
-    'pixellab': 'ditz', // Password untuk Pixellab (Mod)
+    'Sc Terakomari-Md': 'DitzzGanteng',
+    'Ultra Motion (Mod)': 'DitzzGanteng',
+    'Pixellab (Mod)': 'DitzzGanteng',
 };
 
-// FUNGSI UNTUK MENYIMPAN INBOX KE LOCALSTORAGE
 function saveInboxToLocalStorage() {
     try {
         localStorage.setItem(INBOX_STORAGE_KEY, JSON.stringify(localInboxData));
@@ -25,7 +23,6 @@ function saveInboxToLocalStorage() {
     }
 }
 
-// FUNGSI UNTUK MEMUAT INBOX DARI LOCALSTORAGE
 function loadInboxFromLocalStorage() {
     try {
         const storedData = localStorage.getItem(INBOX_STORAGE_KEY);
@@ -40,12 +37,10 @@ function loadInboxFromLocalStorage() {
     }
 }
 
-// FUNGSI INI MENGGABUNGKAN SELURUH LOGIKA INBOX (BARU)
 function initializeInbox() {
     const hasInitialized = localStorage.getItem(INITIALIZED_FLAG_KEY);
 
     if (!hasInitialized) {
-        console.log("Inbox belum diinisialisasi, menambahkan pesan default...");
         localInboxData = [
             {
                 _id: '1',
@@ -93,17 +88,16 @@ async function fetchIpAddress() {
 
 function updateTime() {
     const timeElement = document.getElementById('time-value');
-    if (!timeElement) return;
+    if (timeElement) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
 
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-
-    timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+        timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
 }
 
-// FUNGSI UNTUK MEMUNCULKAN DAN MENYEMBUNYIKAN SIDEBAR
 function toggleMenu() {
     const sidebar = document.getElementById('sidebar');
     const body = document.body;
@@ -128,7 +122,6 @@ function toggleSubmenu(item) {
 
 function showPage(pageId, link) {
     showLoader();
-
     setTimeout(() => {
         const allContent = document.querySelectorAll('.content-view');
         allContent.forEach(content => {
@@ -150,10 +143,6 @@ function showPage(pageId, link) {
 
         if (pageId === 'inbox-view') {
             loadInboxSubmissions();
-        }
-
-        if (window.innerWidth <= 768) {
-            toggleMenu();
         }
 
         hideLoader();
@@ -299,86 +288,55 @@ function hideLoader() {
     }
 }
 
-// FUNGSI UNTUK MENGOSONGKAN SEMUA INPUT PASSWORD DAN MERESET FORM
-function resetAllPasswordInputs() {
-    document.querySelectorAll('.password-char-input').forEach(input => {
-        input.value = '';
-        input.classList.remove('correct', 'incorrect');
-    });
-    document.querySelectorAll('.password-form').forEach(form => {
-        form.classList.remove('show');
-    });
-    document.querySelectorAll('.btn-download').forEach(btn => {
-        btn.textContent = 'Unduh Sekarang';
-    });
-}
-
-// FUNGSI UNTUK MENAMPILKAN FORMULIR PASSWORD
-function showPasswordForm(button) {
-    const parentCard = button.closest('.apk-card');
-    const passwordForm = parentCard.querySelector('.password-form');
-    const downloadButton = parentCard.querySelector('.btn-download');
-
-    if (passwordForm.classList.contains('show')) {
-        passwordForm.classList.remove('show');
-        downloadButton.textContent = 'Unduh Sekarang';
-    } else {
-        // Sembunyikan semua form password lainnya sebelum menampilkan yang ini
-        document.querySelectorAll('.password-form').forEach(form => {
-            if (form !== passwordForm) {
-                form.classList.remove('show');
-            }
-        });
-        passwordForm.classList.add('show');
-        downloadButton.textContent = 'Batal';
-        // Memberikan fokus ke input pertama saat form muncul
-        const passwordInputs = parentCard.querySelectorAll('.password-char-input');
-        if (passwordInputs.length > 0) {
-            passwordInputs[0].focus();
-        }
-    }
-}
-
-// FUNGSI BARU UNTUK MEMERIKSA SELURUH PASSWORD SAAT TOMBOL 'Kirim' DIKLIK
-function checkFullPassword(button) {
-    const parentCard = button.closest('.apk-card');
-    const passwordInputs = parentCard.querySelectorAll('.password-char-input');
-    const downloadLink = button.dataset.link;
-    const itemId = button.dataset.id; 
-
-    const correctPassword = itemPasswords[itemId];
-
-    if (!correctPassword) {
-        alert('Item tidak ditemukan atau password tidak ada.');
+// FUNGSI BARU UNTUK MODAL DOWNLOAD
+function openDownloadModal(title, link, password) {
+    const modal = document.getElementById('download-options-modal');
+    if (!modal) {
+        console.error("Modal dengan ID 'download-options-modal' tidak ditemukan.");
         return;
     }
 
-    let enteredPassword = '';
+    const modalTitle = document.getElementById('download-modal-title');
+    const passwordInput = modal.querySelector('.password-input');
+    const passwordNote = document.getElementById('modal-password-note');
+    const submitBtn = modal.querySelector('.btn-submit');
+    
+    if (modalTitle) modalTitle.textContent = title;
+    if (passwordInput) passwordInput.value = '';
+    if (passwordNote) passwordNote.textContent = `Password: ${password}`;
 
-    passwordInputs.forEach(input => {
-        enteredPassword += input.value;
-    });
+    if (submitBtn) {
+        submitBtn.setAttribute('data-link', link);
+        // Hapus event listener lama jika ada dan tambahkan yang baru
+        const newBtn = submitBtn.cloneNode(true);
+        submitBtn.parentNode.replaceChild(newBtn, submitBtn);
+        newBtn.addEventListener('click', () => checkSinglePassword(newBtn));
+    }
+    
+    openModal('download-options-modal');
+}
 
+// FUNGSI BARU UNTUK MEMERIKSA PASSWORD (VERSI TUNGGAL)
+function checkSinglePassword(button) {
+    const modal = document.getElementById('download-options-modal');
+    const input = modal.querySelector('.password-input');
+    const enteredPassword = input.value.trim();
+    const correctPassword = modal.querySelector('#modal-password-note').textContent.replace('Password: ', '');
+    
     if (enteredPassword === correctPassword) {
-        for (let i = 0; i < passwordInputs.length; i++) {
-            passwordInputs[i].classList.remove('incorrect');
-            passwordInputs[i].classList.add('correct');
+        const downloadLink = button.getAttribute('data-link');
+        if (downloadLink) {
+            window.open(downloadLink, '_blank');
+            closeModal('download-options-modal');
+        } else {
+            alert('Link download tidak ditemukan.');
         }
-        setTimeout(() => {
-            window.location.href = downloadLink;
-        }, 500); 
     } else {
-        for (let i = 0; i < passwordInputs.length; i++) {
-            if (passwordInputs[i].value !== correctPassword[i]) {
-                 passwordInputs[i].classList.remove('correct');
-                 passwordInputs[i].classList.add('incorrect');
-            }
-        }
-        alert('Password salah. Silakan coba lagi!');
+        alert('Password salah. Silakan coba lagi.');
+        input.value = ''; // Kosongkan input
     }
 }
 
-// FUNGSI BARU UNTUK MENAMPILKAN MODAL API
 function openApiModal(apiName, apiDescription) {
     const modalTitle = document.getElementById('api-modal-title');
     const modalDescription = document.getElementById('api-modal-description');
@@ -390,7 +348,6 @@ function openApiModal(apiName, apiDescription) {
     }
 }
 
-// FUNGSI BARU UNTUK SIMULASI SUBMIT FORM API
 function submitApiForm() {
     const apiInput = document.getElementById('api-input');
     if (apiInput.value.trim() === '') {
@@ -403,8 +360,6 @@ function submitApiForm() {
     }
 }
 
-
-// FUNGSI UTAMA UNTUK MENGINISIALISASI SEMUA FITUR
 function initDashboard() {
     initializeInbox();
     loadInboxSubmissions();
@@ -428,11 +383,82 @@ function initDashboard() {
         menuToggle.addEventListener('click', toggleMenu);
     }
     
-    hideLoader(); 
+    hideLoader();
+
+    // Pastikan halaman awal yang ditampilkan adalah dashboard secara permanen
+    showPage('dashboard-view', document.querySelector(`.sidebar-menu a[onclick*="dashboard-view"]`));
 }
 
-// Gunakan event 'pageshow' untuk menangani kembali dari cache (bfcache)
-window.addEventListener('pageshow', (event) => {
-    resetAllPasswordInputs();
-    initDashboard();
+document.addEventListener('DOMContentLoaded', initDashboard);
+
+// Export fungsi ke window agar bisa diakses dari HTML
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.showPage = showPage;
+window.openApiModal = openApiModal;
+window.toggleSubmenu = toggleSubmenu;
+window.openDownloadModal = openDownloadModal;
+window.checkSinglePassword = checkSinglePassword;
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchComments();
+    
+    // Tangani pengiriman formulir
+    const form = document.getElementById('comment-form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('name-input').value;
+        const comment = document.getElementById('comment-input').value;
+        
+        const response = await fetch('/api/submit-comment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, comment })
+        });
+        
+        const result = await response.json();
+        console.log(result);
+        
+        // Refresh komentar setelah berhasil
+        if (response.ok) {
+            fetchComments();
+            form.reset();
+        }
+    });
 });
+
+async function fetchComments() {
+    try {
+        const response = await fetch('/data/comments.json');
+        const comments = await response.json();
+        const commentsDisplay = document.getElementById('comments-display');
+        commentsDisplay.innerHTML = '';
+        
+        // Membalik urutan komentar agar yang terbaru muncul di atas
+        comments.reverse();
+
+        comments.forEach(c => {
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'comment-item';
+            
+            const commentDate = new Date(c.timestamp).toLocaleString('id-ID', {
+                year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+
+            commentDiv.innerHTML = `
+                <div class="comment-header">
+                    <span class="comment-author">${c.name}</span>
+                    <span class="comment-date">${commentDate}</span>
+                </div>
+                <p class="comment-body">${c.comment}</p>
+            `;
+            
+            commentsDisplay.appendChild(commentDiv);
+        });
+    } catch (error) {
+        console.error('Gagal memuat komentar:', error);
+    }
+}

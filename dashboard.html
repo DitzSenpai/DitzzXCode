@@ -147,28 +147,11 @@
                         <p class="section-description">Unduh script bot WhatsApp gratis dengan fitur premium.</p>
                         <div class="apk-grid">
                             <div class="apk-card">
-                                <img src="Terakomari.jpeg" alt="Sc Terakomari-Md Icon">
+                                <img src="terakomari.jpeg" alt="Sc Terakomari-Md Icon">
                                 <h4>Sc Terakomari-Md</h4>
                                 <p class="apk-desc">Fitur: Multi-user, auto-reply, fitur AI dan banyak lagi.</p>
-                                
                                 <div class="button-stack">
-                                    <div class="download-container">
-                                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
-                                        <div class="password-form">
-                                            <div class="password-boxes-container">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                            </div>
-                                            <button class="btn btn-submit" 
-                                                    data-link="https://sfl.gl/DeSdeq" 
-                                                    data-id="terakomari"  
-                                                    onclick="checkFullPassword(this)">Kirim</button>
-                                            <span class="password-note">Password: Ditzz</span>
-                                        </div>
-                                    </div>
+                                    <button class="btn btn-download" onclick="openDownloadModal('Sc Terakomari-Md', 'https://sfl.gl/DeSdeq', 'DitzzGanteng')">Unduh Sekarang</button>
                                     <a href="#" class="btn btn-more" onclick="openModal('sc-bot-modal')">Selengkapnya</a>
                                 </div>
                             </div>
@@ -198,24 +181,8 @@
                                 <img src="ultramotion.jpeg" alt="Ultra Motion Icon">
                                 <h4>Ultra Motion (Mod)</h4>
                                 <p class="apk-desc">Fitur: Buka semua fitur premium tanpa biaya, tanpa watermark, dan tanpa iklan.</p>
-                                
                                 <div class="button-stack">
-                                    <div class="download-container">
-                                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
-                                        <div class="password-form">
-                                            <div class="password-boxes-container">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                            </div>
-                                            <button class="btn btn-submit" 
-                                                    data-link="https://sfile.mobi/4qQABe1QE8q" 
-                                                    data-id="ultramotion"
-                                                    onclick="checkFullPassword(this)">Kirim</button>
-                                            <span class="password-note">Password: Ditz</span>
-                                        </div>
-                                    </div>
+                                    <button class="btn btn-download" onclick="openDownloadModal('Ultra Motion (Mod)', 'https://sfile.mobi/4qQABe1QE8q', 'DitzzGanteng')">Unduh Sekarang</button>
                                     <a href="#" class="btn btn-more" onclick="openModal('ultra-motion-modal')">Selengkapnya</a>
                                 </div>
                             </div>
@@ -225,22 +192,7 @@
                                 <h4>Pixellab (Mod)</h4>
                                 <p class="apk-desc">Fitur: Versi premium tidak terbatas, membuka semua fitur dan aset tanpa biaya.</p>
                                 <div class="button-stack">
-                                    <div class="download-container">
-                                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
-                                        <div class="password-form">
-                                            <div class="password-boxes-container">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                                <input type="text" class="password-char-input" maxlength="1">
-                                            </div>
-                                            <button class="btn btn-submit" 
-                                                    data-link="https://safefileku.com/download/zFXcMKIbCdTLAgAw" 
-                                                    data-id="pixellab"
-                                                    onclick="checkFullPassword(this)">Kirim</button>
-                                            <span class="password-note">Password: Ditz</span>
-                                        </div>
-                                    </div>
+                                    <button class="btn btn-download" onclick="openDownloadModal('Pixellab (Mod)', 'https://safefileku.com/download/zFXcMKIbCdTLAgAw', 'DitzzGanteng')">Unduh Sekarang</button>
                                     <a href="#" class="btn btn-more" onclick="openModal('pixellab-modal')">Selengkapnya</a>
                                 </div>
                             </div>
@@ -256,6 +208,23 @@
         </main>
     </div>
 
+    <div id="download-options-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('download-options-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 id="download-modal-title"></h2>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Masukkan password untuk melanjutkan.</p>
+                <div class="password-form-modal">
+                    <input type="text" class="password-input" placeholder="Masukkan password">
+                    <button class="btn btn-submit" onclick="checkSinglePassword(this)">Kirim</button>
+                    <span class="password-note" id="modal-password-note"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div id="pixellab-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('pixellab-modal')">&times;</span>
@@ -274,22 +243,6 @@
             </div>
             <div class="modal-footer">
                 <div class="button-stack">
-                    <div class="download-container">
-                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
-                        <div class="password-form">
-                            <div class="password-boxes-container">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                            </div>
-                            <button class="btn btn-submit" 
-                                    data-link="https://safefileku.com/download/zFXcMKIbCdTLAgAw" 
-                                    data-id="pixellab"
-                                    onclick="checkFullPassword(this)">Kirim</button>
-                            <span class="password-note">Password: Ditz</span>
-                        </div>
-                    </div>
                     <a href="#" class="btn btn-more" onclick="closeModal('pixellab-modal')">Tutup</a>
                 </div>
             </div>
@@ -327,6 +280,22 @@
         </div>
     </div>
     
+    <div id="comments-section">
+    <h3>Tinggalkan Komentar</h3>
+    <form id="comment-form">
+        <label for="name-input">Nama:</label>
+        <input type="text" id="name-input" required>
+        
+        <label for="comment-input">Komentar:</label>
+        <textarea id="comment-input" rows="4" required></textarea>
+        
+        <button type="submit">Kirim</button>
+    </form>
+    
+    <div id="comments-display">
+        </div>
+</div>
+    
     <div id="message-detail-modal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('message-detail-modal')">&times;</span>
@@ -354,23 +323,6 @@
             </div>
             <div class="modal-footer">
                 <div class="button-stack">
-                    <div class="download-container">
-                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
-                        <div class="password-form">
-                            <div class="password-boxes-container">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                            </div>
-                            <button class="btn btn-submit" 
-                                    data-link="https://sfl.gl/DeSdeq" 
-                                    data-id="terakomari"  
-                                    onclick="checkFullPassword(this)">Kirim</button>
-                            <span class="password-note">Password: Ditzz</span>
-                        </div>
-                    </div>
                     <a href="#" class="btn btn-more" onclick="closeModal('sc-bot-modal')">Tutup</a>
                 </div>
             </div>
@@ -397,22 +349,6 @@
             </div>
             <div class="modal-footer">
                 <div class="button-stack">
-                    <div class="download-container">
-                        <button class="btn btn-download" onclick="showPasswordForm(this)">Unduh Sekarang</button>
-                        <div class="password-form">
-                            <div class="password-boxes-container">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                                <input type="text" class="password-char-input" maxlength="1">
-                            </div>
-                            <button class="btn btn-submit" 
-                                    data-link="https://sfile.mobi/4qQABe1QE8q" 
-                                    data-id="ultramotion"
-                                    onclick="checkFullPassword(this)">Kirim</button>
-                            <span class="password-note">Password: Ditz</span>
-                        </div>
-                    </div>
                     <a href="#" class="btn btn-more" onclick="closeModal('ultra-motion-modal')">Tutup</a>
                 </div>
             </div>
