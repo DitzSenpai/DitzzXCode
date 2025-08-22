@@ -1075,111 +1075,31 @@ body.no-scroll {
     display: block;
 }
 
-/* Gaya untuk bagian komentar secara keseluruhan */
-#comments-section {
-    padding: 20px;
-    background-color: var(--card-bg);
+.card-custom {
+    /* Ganti warna latar belakang di sini */
+    background-color: #f0f8ff; /* Ini adalah warna biru muda */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    margin-top: 30px;
-}
-
-#comments-section h3 {
-    font-size: 1.5rem;
-    color: var(--text-color);
-    margin-bottom: 20px;
+    padding: 20px;
     text-align: center;
 }
 
-/* Gaya untuk formulir komentar */
-#comment-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
+.card-custom h3 {
+    font-size: 1.2rem;
+    color: #333; /* Warna hitam */
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
-#comment-form label {
-    font-weight: 600;
-    color: #555;
-    display: none; /* Sembunyikan label, gunakan placeholder */
-}
-
-#comment-form input,
-#comment-form textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-family: inherit;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-#comment-form input:focus,
-#comment-form textarea:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(52, 120, 219, 0.5);
-    outline: none;
-}
-
-#comment-form textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-#comment-form button {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#comment-form button:hover {
-    background-color: #2a65b5;
-    transform: translateY(-2px);
-}
-
-/* Gaya untuk tampilan daftar komentar */
-#comments-display {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.comment-item {
-    background-color: #f8f9fa;
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid var(--secondary-color);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.comment-item .comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.card-custom .card-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff; /* Warna biru */
     margin-bottom: 5px;
 }
 
-.comment-item .comment-author {
-    font-weight: 700;
-    color: #333;
-    font-size: 1rem;
-}
-
-.comment-item .comment-date {
-    font-size: 0.8rem;
-    color: #999;
-}
-
-.comment-item .comment-body {
-    color: #555;
-    line-height: 1.5;
+.card-custom .card-label {
+    font-size: 0.9rem;
+    color: #555; /* Warna abu-abu gelap agar terlihat */
+    margin-bottom: 0;
 }
