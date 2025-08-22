@@ -2,18 +2,27 @@
 // === Kode Final: Perbaikan dan Optimalisasi Menyeluruh ===
 // =======================================================
 
-// Data pesan inbox lokal sebagai ganti database
 let localInboxData = [];
 const INBOX_STORAGE_KEY = 'dashboard_inbox_messages';
 const INITIALIZED_FLAG_KEY = 'hasInitializedInbox';
 
 let notificationTimeout;
 
-const itemPasswords = {
-    'Sc Terakomari-Md': 'DitzzGanteng',
-    'Ultra Motion (Mod)': 'DitzzGanteng',
-    'Pixellab (Mod)': 'DitzzGanteng',
-};
+let downloadInfo = {};
+
+// Fungsi untuk memuat password dari file JSON secara asinkron
+async function loadPasswords() {
+    try {
+        const response = await fetch('passwords.json');
+        if (!response.ok) {
+            throw new Error('Gagal memuat passwords.json. Pastikan file ada di root folder.');
+        }
+        downloadInfo = await response.json();
+    } catch (error) {
+        console.error('Gagal memuat passwords.json:', error);
+        alert('Gagal memuat data password. Mohon coba lagi nanti.');
+    }
+}
 
 function saveInboxToLocalStorage() {
     try {
@@ -121,32 +130,27 @@ function toggleSubmenu(item) {
 }
 
 function showPage(pageId, link) {
-    showLoader();
-    setTimeout(() => {
-        const allContent = document.querySelectorAll('.content-view');
-        allContent.forEach(content => {
-            content.style.display = 'none';
-        });
+    const allContent = document.querySelectorAll('.content-view');
+    allContent.forEach(content => {
+        content.style.display = 'none';
+    });
 
-        const selectedContent = document.getElementById(pageId);
-        if (selectedContent) {
-            selectedContent.style.display = 'block';
-        }
+    const selectedContent = document.getElementById(pageId);
+    if (selectedContent) {
+        selectedContent.style.display = 'block';
+    }
 
-        const allLinks = document.querySelectorAll('.sidebar-menu li');
-        allLinks.forEach(item => {
-            item.classList.remove('active');
-        });
-        if (link) {
-            link.parentNode.classList.add('active');
-        }
+    const allLinks = document.querySelectorAll('.sidebar-menu li');
+    allLinks.forEach(item => {
+        item.classList.remove('active');
+    });
+    if (link) {
+        link.parentNode.classList.add('active');
+    }
 
-        if (pageId === 'inbox-view') {
-            loadInboxSubmissions();
-        }
-
-        hideLoader();
-    }, 100);
+    if (pageId === 'inbox-view') {
+        loadInboxSubmissions();
+    }
 }
 
 function openModal(modalId) {
@@ -273,7 +277,6 @@ function openMessageModal(title, message) {
     openModal('message-detail-modal');
 }
 
-
 function showLoader() {
     const loaderWrapper = document.querySelector('.loader-wrapper');
     if (loaderWrapper) {
@@ -288,53 +291,24 @@ function hideLoader() {
     }
 }
 
-// FUNGSI BARU UNTUK MODAL DOWNLOAD
-function openDownloadModal(title, link, password) {
+// FUNGSI UNTUK MODAL DOWNLOAD
+function openDownloadModal(title, fileId, url, waLink) {
     const modal = document.getElementById('download-options-modal');
-    if (!modal) {
-        console.error("Modal dengan ID 'download-options-modal' tidak ditemukan.");
-        return;
-    }
-
     const modalTitle = document.getElementById('download-modal-title');
     const passwordInput = modal.querySelector('.password-input');
     const passwordNote = document.getElementById('modal-password-note');
-    const submitBtn = modal.querySelector('.btn-submit');
-    
+    const submitBtn = document.getElementById('download-modal-btn');
+    const helpLink = document.getElementById('password-help-link');
+
     if (modalTitle) modalTitle.textContent = title;
     if (passwordInput) passwordInput.value = '';
-    if (passwordNote) passwordNote.textContent = `Password: ${password}`;
-
-    if (submitBtn) {
-        submitBtn.setAttribute('data-link', link);
-        // Hapus event listener lama jika ada dan tambahkan yang baru
-        const newBtn = submitBtn.cloneNode(true);
-        submitBtn.parentNode.replaceChild(newBtn, submitBtn);
-        newBtn.addEventListener('click', () => checkSinglePassword(newBtn));
-    }
+    if (passwordNote) passwordNote.textContent = '';
+    if (helpLink) helpLink.href = waLink; // SET TAUTAN DI SINI
+    
+    submitBtn.dataset.fileId = fileId;
+    submitBtn.dataset.url = url;
     
     openModal('download-options-modal');
-}
-
-// FUNGSI BARU UNTUK MEMERIKSA PASSWORD (VERSI TUNGGAL)
-function checkSinglePassword(button) {
-    const modal = document.getElementById('download-options-modal');
-    const input = modal.querySelector('.password-input');
-    const enteredPassword = input.value.trim();
-    const correctPassword = modal.querySelector('#modal-password-note').textContent.replace('Password: ', '');
-    
-    if (enteredPassword === correctPassword) {
-        const downloadLink = button.getAttribute('data-link');
-        if (downloadLink) {
-            window.open(downloadLink, '_blank');
-            closeModal('download-options-modal');
-        } else {
-            alert('Link download tidak ditemukan.');
-        }
-    } else {
-        alert('Password salah. Silakan coba lagi.');
-        input.value = ''; // Kosongkan input
-    }
 }
 
 function openApiModal(apiName, apiDescription) {
@@ -360,7 +334,44 @@ function submitApiForm() {
     }
 }
 
-function initDashboard() {
+document.addEventListener('DOMContentLoaded', () => {
+    loadPasswords();
+    
+    const submitBtn = document.getElementById('download-modal-btn');
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            const modal = document.getElementById('download-options-modal');
+            const inputElement = modal.querySelector('.password-input');
+            const noteElement = document.getElementById('modal-password-note');
+            const fileId = submitBtn.dataset.fileId;
+            const downloadUrl = submitBtn.dataset.url;
+            
+            if (!downloadInfo[fileId]) {
+                noteElement.textContent = "Password tidak ditemukan. Mohon hubungi admin.";
+                noteElement.style.color = "red";
+                return;
+            }
+            
+            if (inputElement.value === downloadInfo[fileId]) {
+                noteElement.textContent = "Password benar! Unduhan akan dimulai.";
+                noteElement.style.color = "green";
+                
+                const link = document.createElement('a');
+                link.href = downloadUrl;
+                link.download = downloadUrl.split('/').pop();
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                closeModal('download-options-modal');
+                inputElement.value = '';
+            } else {
+                noteElement.textContent = "Password salah. Silakan coba lagi.";
+                noteElement.style.color = "red";
+            }
+        });
+    }
+
     initializeInbox();
     loadInboxSubmissions();
     
@@ -382,14 +393,9 @@ function initDashboard() {
     if (menuToggle) {
         menuToggle.addEventListener('click', toggleMenu);
     }
-    
-    hideLoader();
 
-    // Pastikan halaman awal yang ditampilkan adalah dashboard secara permanen
     showPage('dashboard-view', document.querySelector(`.sidebar-menu a[onclick*="dashboard-view"]`));
-}
-
-document.addEventListener('DOMContentLoaded', initDashboard);
+});
 
 // Export fungsi ke window agar bisa diakses dari HTML
 window.openModal = openModal;
@@ -398,4 +404,4 @@ window.showPage = showPage;
 window.openApiModal = openApiModal;
 window.toggleSubmenu = toggleSubmenu;
 window.openDownloadModal = openDownloadModal;
-window.checkSinglePassword = checkSinglePassword;
+window.submitApiForm = submitApiForm;
