@@ -156,7 +156,7 @@
                                 <h4>Sc Terakomari-Md</h4>
                                 <p class="apk-desc">Fitur: Multi-user, auto-reply, fitur AI dan banyak lagi.</p>
                                 <div class="button-stack">
-                                <button class="btn btn-download" onclick="openDownloadModal('Sc Terakomari-Md', 'downloads/sc-terakomari.zip', 'DitzzGanteng')">Unduh Sekarang</button>
+                                    <button class="btn btn-download" onclick="openDownloadModal('Sc Terakomari-Md', 'sc-terakomari', 'downloads/sc-terakomari.zip', 'https://whatsapp.com/channel/0029Vam12JU6rsQy0ZlSLh0T/387')">Unduh Sekarang</button>
                                     <a href="#" class="btn btn-more" onclick="openModal('sc-bot-modal')">Selengkapnya</a>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                 <h4>Ultra Motion (Mod)</h4>
                                 <p class="apk-desc">Fitur: Buka semua fitur premium tanpa biaya, tanpa watermark, dan tanpa iklan.</p>
                                 <div class="button-stack">
-                                    <button class="btn btn-download" onclick="openDownloadModal('Ultra Motion (Mod)', 'https://sfile.mobi/4qQABe1QE8q', 'DitzzGanteng')">Unduh Sekarang</button>
+                                    <button class="btn btn-download" onclick="openDownloadModal('Ultra Motion (Mod)', 'ultra-motion', 'https://sfile.mobi/4qQABe1QE8q', 'https://whatsapp.com/channel/0029Vam12JU6rsQy0ZlSLh0T/388')">Unduh Sekarang</button>
                                     <a href="#" class="btn btn-more" onclick="openModal('ultra-motion-modal')">Selengkapnya</a>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                                 <h4>Pixellab (Mod)</h4>
                                 <p class="apk-desc">Fitur: Versi premium tidak terbatas, membuka semua fitur dan aset tanpa biaya.</p>
                                 <div class="button-stack">
-                                    <button class="btn btn-download" onclick="openDownloadModal('Pixellab (Mod)', 'https://safefileku.com/download/zFXcMKIbCdTLAgAw', 'DitzzGanteng')">Unduh Sekarang</button>
+                                    <button class="btn btn-download" onclick="openDownloadModal('Pixellab (Mod)', 'pixellab-mod', 'https://safefileku.com/download/zFXcMKIbCdTLAgAw', 'https://whatsapp.com/channel/0029Vam12JU6rsQy0ZlSLh0T/389')">Unduh Sekarang</button>
                                     <a href="#" class="btn btn-more" onclick="openModal('pixellab-modal')">Selengkapnya</a>
                                 </div>
                             </div>
@@ -222,10 +222,11 @@
             <div class="modal-body">
                 <p class="modal-description">Masukkan password untuk melanjutkan.</p>
                 <div class="password-form-modal">
-                    <input type="text" class="password-input" placeholder="Masukkan password">
-                    <button class="btn btn-submit" onclick="checkSinglePassword(this)">Kirim</button>
+                    <input type="text" class="password-input" placeholder="Masukkan password" id="modal-password-input">
+                    <button class="btn btn-submit" id="download-modal-btn">Kirim</button>
                     <span class="password-note" id="modal-password-note"></span>
                 </div>
+                <p class="password-help">Mau tahu passwordnya? <a href="#" id="password-help-link" target="_blank">Klik Ini</a></p>
             </div>
         </div>
     </div>
