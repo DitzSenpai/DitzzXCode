@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "sender": "Admin",
+    "subject": "Selamat Datang di DitzMarketplace!",
+    "date": "22-08-2025",
+    "content": "Halo! Selamat datang di dashboard DitzMarketplace. Kami harap Anda menikmati semua fitur yang ada. Jika ada pertanyaan, jangan ragu hubungi kami.",
+    "isRead": false
+  },
+  {
+    "id": 2,
+    "sender": "Sistem",
+    "subject": "Pembaruan Penting: Fitur Baru Telah Ditambahkan",
+    "date": "21-08-2025",
+    "content": "Kami telah meluncurkan fitur-fitur baru di bagian Store dan Sc Bot Free. Silakan cek untuk mengetahui lebih lanjut.",
+    "isRead": false
+  },
+  {
+    "id": 3,
+    "sender": "Sistem",
+    "subject": "Maintenance Rutin",
+    "date": "21-08-2025",
+    "content": "Kami Melakukan Maintenance Rutin Di Hari Juma't untuk pemeriksaan Bug Dan Keamanan!.",
+    "isRead": false
+  },
+  {
+    "id": 4,
+    "sender": "Promosi",
+    "subject": "Dapatkan Diskon 50% untuk Layanan Premium!",
+    "date": "20-08-2025",
+    "content": "Jangan lewatkan kesempatan emas! Kami menawarkan diskon spesial 50% untuk semua layanan premium di Store kami. Penawaran terbatas!",
+    "isRead": false
+  }
+]

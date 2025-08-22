@@ -869,6 +869,7 @@ body.no-scroll {
 }
 
 /* --- CSS untuk Notifikasi Pesan Baru dengan Animasi --- */
+/* --- GAYA UNTUK NOTIFIKASI PESAN BARU DENGAN ANIMASI --- */
 .inbox-notification {
     position: fixed;
     bottom: 20px;
@@ -902,9 +903,10 @@ body.no-scroll {
 .inbox-notification .checkmark-container {
     width: 24px;
     height: 24px;
-    display: none;
+    display: none; /* Sembunyikan secara default */
 }
 
+/* Tampilkan saat ada kelas 'animate' */
 .inbox-notification.animate .checkmark-container {
     display: block;
 }
@@ -912,42 +914,35 @@ body.no-scroll {
 .checkmark {
     width: 100%;
     height: 100%;
-    transform: scale(0.8);
 }
 
-.checkmark-circle {
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #fff;
     fill: none;
-    stroke: white;
-    stroke-width: 3;
-    stroke-dasharray: 70;
-    stroke-dashoffset: 70;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
 
-.checkmark-path {
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #fff;
     fill: none;
-    stroke: white;
-    stroke-width: 3;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-dasharray: 24;
-    stroke-dashoffset: 24;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
 }
 
-.inbox-notification.animate .checkmark-circle {
-    animation: draw-circle 0.5s ease-in-out forwards;
-}
-
-@keyframes draw-circle {
-    to {
+@keyframes stroke {
+    100% {
         stroke-dashoffset: 0;
     }
 }
 
-@keyframes draw-path {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
 
 .report-section {
     background-color: var(--warning-color);
