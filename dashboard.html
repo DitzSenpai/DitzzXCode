@@ -10,22 +10,24 @@
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="search-box">
-            <input type="text" placeholder="Search">
-        </div>
-        <div class="profile">
-            <img src="ditzz.jpg" alt="Profil Pengguna">
-            <button class="menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+<nav class="navbar">
+    <button class="menu-toggle">
+        <i class="fa fa-bars"></i>
+    </button>
+    
+    <div class="search-box">
+        <input type="text" placeholder="Cari script...">
+    </div>
+    
+    <div class="profile">
+        <img src="ditzz.jpg" alt="User Profile">
+    </div>
+</nav>
+
 
     <div class="main-container">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="error.jpg" alt="Logo DitzMarketplace">
                 <span class="logo-text">DitzMarketplace</span>
             </div>
             <ul class="sidebar-menu">
@@ -57,7 +59,6 @@
                     </ul>
                 </li>
                 <li><a href="#"><i class="fas fa-search"></i>Search API</a></li>
-                <li><a href="#" onclick="openApiModal('Anime & Manga API', 'API untuk berbagai informasi tentang Anime dan Manga')"><i class="fas fa-cat"></i>Anime & Manga API</a></li>
                 <li><a id="open-partner-modal" href="#"><i class="fas fa-handshake"></i>Partner Owner</a></li>
             </ul>
             <div class="sidebar-footer">
@@ -226,7 +227,7 @@
                     <button class="btn btn-submit" id="download-modal-btn">Kirim</button>
                     <span class="password-note" id="modal-password-note"></span>
                 </div>
-                <p class="password-help">Mau tahu passwordnya? <a href="#" id="password-help-link" target="_blank">Klik Ini</a></p>
+                <p class="password-help">Mau tahu passwordnya? <a href="#" id="password-help-link" target="_blank"><i class="fab fa-whatsapp"></i> Klik Ini</a></p>
             </div>
         </div>
     </div>

@@ -11,6 +11,9 @@
     --secondary-color: #2ecc71;
     --danger-color: #e74c3c;
     --warning-color: #f1c40f;
+    --sidebar-width: 250px;
+    /* Turunkan tinggi navbar agar lebih ringkas */
+    --navbar-height: 37px; 
 }
 
 body {
@@ -32,51 +35,9 @@ body.no-scroll {
     padding: 0 20px;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: var(--card-bg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.search-box {
-    flex-grow: 1;
-    max-width: 500px;
-    margin-right: 15px;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    background-color: #f0f2f5;
-    outline: none;
-}
-
-.profile {
-    display: flex;
-    align-items: center;
-}
-
-.profile img {
-    border-radius: 50%;
-    margin-right: 15px;
-    width: 40px;
-    height: 40px;
-}
-
-.menu-toggle {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
+/* -------------------------------------- */
+/* --- PERBAIKAN TATA LETAK UTAMA --- */
+/* -------------------------------------- */
 
 .main-container {
     display: flex;
@@ -84,29 +45,148 @@ body.no-scroll {
 }
 
 .sidebar {
-    width: 250px;
+    width: var(--sidebar-width);
     background-color: var(--card-bg);
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     height: 100vh;
     position: fixed;
     top: 0;
-    right: -250px;
-    transition: right 0.3s ease-in-out;
-    z-index: 999;
+    left: 0;
+    z-index: 1001;
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sidebar.active {
-    right: 0;
+    transform: translateX(0);
 }
 
 .dashboard-content {
     flex-grow: 1;
     padding: 20px;
+    /* Menyesuaikan padding-top dengan tinggi navbar yang baru */
+    padding-top: calc(var(--navbar-height) + 20px); 
+    margin-left: var(--sidebar-width); 
     transition: margin-left 0.3s ease;
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px; /* Hapus padding vertikal, atur tinggi dengan height */
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width)); 
+    z-index: 1002;
+    transition: left 0.3s ease, width 0.3s ease;
+    height: var(--navbar-height); /* Terapkan tinggi yang baru */
+}
+
+/* Sesuaikan ukuran logo dan teks di dalam navbar */
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1rem; /* Ukuran teks logo lebih kecil */
+    font-weight: 600;
+}
+
+.navbar .logo img {
+    height: 30px; /* Mengurangi ukuran gambar logo */
+    margin-right: 10px;
+}
+
+.search-box {
+    flex-grow: 2;
+    max-width: 350px;
+    margin-left: px;
+    margin-right: 100px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 6px 15px; /* Kurangi padding input agar muat di navbar yang lebih kecil */
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background-color: #f0f2f5;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    /* Perbaiki agar gambar profil pas di tengah */
+    justify-content: central;
+    height: 400%; 
+}
+
+.profile img {
+    border-radius: 50%;
+    margin-left: 0px;
+    margin-right: 20px;
+    /* Menyesuaikan ukuran gambar profil agar muat di navbar yang baru */
+    width: 40px; 
+    height: 40px;
+    object-fit: cover;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none; 
+}
+
+/* -------------------------------------- */
+/* --- PERBAIKAN TATA LETAK MOBILE --- */
+/* -------------------------------------- */
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+    
+    .dashboard-content {
+        margin-left: 0;
+        /* Tambahkan margin-top untuk memberi ruang di bawah navbar mobile */
+        margin-top: calc(var(--navbar-height) + 20px);
+        padding-top: 0;
+    }
+
+    .navbar {
+        left: 0;
+        width: 100%;
+        padding: 15px;
+        z-index: 1002;
+        height: var(--navbar-height);
+    }
+
+    .navbar .logo {
+        display: none; /* Sembunyikan logo di mobile */
+    }
+}
+
+
+/* -------------------------------------- */
+/* --- GAYA KOMPONEN LAINNYA --- */
+/* -------------------------------------- */
 
 .sidebar-header {
     display: flex;
@@ -397,7 +477,6 @@ body.no-scroll {
 
 
 /* --- GAYA UNTUK INBOX SEPERTI DAFTAR PESAN --- */
-/* Styling untuk tombol hapus */
 .inbox-message-item .message-actions {
     display: flex;
     align-items: center;
@@ -531,41 +610,6 @@ body.no-scroll {
 
 .hard-delete-btn:hover {
     background-color: #fcebeb;
-}
-
-
-@media (min-width: 768px) {
-    .main-container {
-        padding-left: 250px;
-    }
-    .menu-toggle {
-        display: none;
-    }
-    .sidebar {
-        position: fixed;
-        left: 0;
-        right: auto;
-        width: 250px;
-        top: 0;
-        bottom: 0;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-        z-index: 1001;
-    }
-    .dashboard-content {
-        margin-left: 0;
-    }
-}
-@media (max-width: 768px) {
-    .main-container {
-        padding-left: 0;
-    }
-    .sidebar {
-        right: -250px;
-    }
-    .sidebar.active {
-        right: 0;
-        box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    }
 }
 
 /* GAYA MODAL UMUM */
@@ -767,10 +811,10 @@ body.no-scroll {
 }
 
 .apk-card img {
-    width: 100%; /* Lebar gambar akan 100% dari parent-nya */
-    aspect-ratio: 16 / 9; /* Ini adalah kunci untuk rasio 16:9 */
-    object-fit: cover; /* Ini akan memangkas gambar agar pas dan tidak gepeng */
-    border-radius: 10px; /* Gunakan border-radius yang lebih besar agar terlihat bagus */
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
     margin-bottom: 15px;
 }
 
@@ -791,7 +835,7 @@ body.no-scroll {
     margin-bottom: 10px;
 }
 
-/* Gaya Pop-up untuk Deskripsi Fitur */
+/* GAYA Pop-up untuk Deskripsi Fitur */
 .modal-header {
     text-align: center;
     margin-bottom: 20px;
@@ -1076,8 +1120,7 @@ body.no-scroll {
 }
 
 .card-custom {
-    /* Ganti warna latar belakang di sini */
-    background-color: #f0f8ff; /* Ini adalah warna biru muda */
+    background-color: #f0f8ff;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     padding: 20px;
@@ -1086,7 +1129,7 @@ body.no-scroll {
 
 .card-custom h3 {
     font-size: 1.2rem;
-    color: #333; /* Warna hitam */
+    color: #333;
     margin-top: 0;
     margin-bottom: 10px;
 }
@@ -1094,12 +1137,52 @@ body.no-scroll {
 .card-custom .card-value {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #007bff; /* Warna biru */
+    color: #007bff;
     margin-bottom: 5px;
 }
 
 .card-custom .card-label {
     font-size: 0.9rem;
-    color: #555; /* Warna abu-abu gelap agar terlihat */
+    color: #555;
     margin-bottom: 0;
+}
+
+/* -------------------------------------- */
+/* --- PERBAIKAN TATA LETAK DESKTOP --- */
+/* -------------------------------------- */
+
+@media (min-width: 769px) {
+    .sidebar {
+        /* Memastikan sidebar terlihat di desktop */
+        transform: translateX(0);
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+
+    .dashboard-content {
+        /* Memberikan ruang untuk sidebar */
+        margin-left: var(--sidebar-width);
+    }
+    
+    .navbar {
+        /* Menyesuaikan navbar agar berada di samping sidebar */
+        left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+        padding: 0 20px;
+    }
+
+    .navbar .logo {
+        /* Menampilkan logo di desktop */
+        display: flex;
+    }
+
+    .menu-toggle {
+        /* Menyembunyikan tombol menu toggle di desktop */
+        display: none;
+    }
+
+    .profile {
+        height: 100%;
+    }
 }

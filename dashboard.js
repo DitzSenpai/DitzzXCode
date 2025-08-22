@@ -1,407 +1,273 @@
-// =======================================================
-// === Kode Final: Perbaikan dan Optimalisasi Menyeluruh ===
-// =======================================================
-
-let localInboxData = [];
-const INBOX_STORAGE_KEY = 'dashboard_inbox_messages';
-const INITIALIZED_FLAG_KEY = 'hasInitializedInbox';
-
-let notificationTimeout;
-
-let downloadInfo = {};
-
-// Fungsi untuk memuat password dari file JSON secara asinkron
-async function loadPasswords() {
-    try {
-        const response = await fetch('passwords.json');
-        if (!response.ok) {
-            throw new Error('Gagal memuat passwords.json. Pastikan file ada di root folder.');
-        }
-        downloadInfo = await response.json();
-    } catch (error) {
-        console.error('Gagal memuat passwords.json:', error);
-        alert('Gagal memuat data password. Mohon coba lagi nanti.');
-    }
-}
-
-function saveInboxToLocalStorage() {
-    try {
-        localStorage.setItem(INBOX_STORAGE_KEY, JSON.stringify(localInboxData));
-    } catch (error) {
-        console.error('Gagal menyimpan inbox ke localStorage:', error);
-    }
-}
-
-function loadInboxFromLocalStorage() {
-    try {
-        const storedData = localStorage.getItem(INBOX_STORAGE_KEY);
-        if (storedData) {
-            localInboxData = JSON.parse(storedData);
-        } else {
-            localInboxData = [];
-        }
-    } catch (error) {
-        console.error('Gagal memuat inbox dari localStorage:', error);
-        localInboxData = [];
-    }
-}
-
-function initializeInbox() {
-    const hasInitialized = localStorage.getItem(INITIALIZED_FLAG_KEY);
-
-    if (!hasInitialized) {
-        localInboxData = [
-            {
-                _id: '1',
-                title: 'Selamat Datang di Dashboard!',
-                message: 'Halo, ini adalah pesan pertama di inbox Anda. Silakan jelajahi fitur-fitur yang ada.',
-                createdAt: new Date().toISOString()
-            },
-            {
-                _id: '2',
-                title: 'Pembaruan: Tampilan Inbox',
-                message: 'Kami telah memperbarui tampilan inbox agar lebih modern, menarik, dan mudah digunakan.',
-                createdAt: new Date().toISOString()
-            },
-            {
-                _id: '3',
-                title: 'Pemberitahuan: Maintenance Server',
-                message: 'Server akan ditutup pada hari Jumat untuk pemeliharaan rutin. Mohon maaf atas ketidaknyamanan ini.',
-                createdAt: new Date().toISOString()
-            }
-        ];
-        saveInboxToLocalStorage();
-        localStorage.setItem(INITIALIZED_FLAG_KEY, 'true');
-    } else {
-        loadInboxFromLocalStorage();
-    }
-}
-
-function toggleFaq(element) {
-    element.classList.toggle('active');
-}
-
-async function fetchIpAddress() {
-    const ipElement = document.getElementById('ip-address-value');
-    if (!ipElement) return;
-
-    try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        const data = await response.json();
-        ipElement.textContent = data.ip;
-    } catch (error) {
-        console.error('Gagal mengambil IP Address:', error);
-        ipElement.textContent = 'Gagal memuat IP';
-    }
-}
-
-function updateTime() {
-    const timeElement = document.getElementById('time-value');
-    if (timeElement) {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-
-        timeElement.textContent = `${hours}:${minutes}:${seconds}`;
-    }
-}
-
-function toggleMenu() {
-    const sidebar = document.getElementById('sidebar');
-    const body = document.body;
-    sidebar.classList.toggle('active');
-
-    if (sidebar.classList.contains('active')) {
-        body.classList.add('no-scroll');
-    } else {
-        body.classList.remove('no-scroll');
-    }
-}
-
-function toggleSubmenu(item) {
-    item.classList.toggle('open');
-    const submenu = item.querySelector('.submenu');
-    if (item.classList.contains('open')) {
-        submenu.style.maxHeight = submenu.scrollHeight + 'px';
-    } else {
-        submenu.style.maxHeight = '0';
-    }
-}
-
-function showPage(pageId, link) {
-    const allContent = document.querySelectorAll('.content-view');
-    allContent.forEach(content => {
-        content.style.display = 'none';
-    });
-
-    const selectedContent = document.getElementById(pageId);
-    if (selectedContent) {
-        selectedContent.style.display = 'block';
-    }
-
-    const allLinks = document.querySelectorAll('.sidebar-menu li');
-    allLinks.forEach(item => {
-        item.classList.remove('active');
-    });
-    if (link) {
-        link.parentNode.classList.add('active');
-    }
-
-    if (pageId === 'inbox-view') {
-        loadInboxSubmissions();
-    }
-}
-
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.add('show');
-        document.body.classList.add('no-scroll');
-    }
-}
-
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('show');
-        setTimeout(() => {
-             document.body.classList.remove('no-scroll');
-        }, 300);
-    }
-}
-
-window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-        closeModal(event.target.id);
-    }
-}
-
-function showNewMessageNotification() {
-    const notification = document.getElementById('inbox-notification');
-    if (notification) {
-        clearTimeout(notificationTimeout);
-        notification.classList.add('show');
-        setTimeout(() => {
-            notification.classList.add('animate');
-        }, 100);
-
-        notificationTimeout = setTimeout(() => {
-            notification.classList.remove('show');
-            notification.classList.remove('animate');
-        }, 5000);
-    }
-}
-
-function addNewMessage(title, message) {
-    const newId = (localInboxData.length + 1).toString();
-    const newMessage = {
-        _id: newId,
-        title: title,
-        message: message,
-        createdAt: new Date().toISOString()
-    };
-
-    localInboxData.push(newMessage);
-    showNewMessageNotification();
-    saveInboxToLocalStorage();
-
-    if (document.getElementById('inbox-view').style.display === 'block') {
-        loadInboxSubmissions();
-    }
-}
-
-function loadInboxSubmissions() {
-    const inboxContainer = document.getElementById('inbox-messages');
-    if (!inboxContainer) return;
-
-    inboxContainer.innerHTML = '';
-
-    if (localInboxData.length > 0) {
-        localInboxData.forEach(submission => {
-            const messageItem = document.createElement('div');
-            messageItem.classList.add('inbox-message-item');
-            messageItem.dataset.id = submission._id;
-
-            const timestamp = new Date(submission.createdAt).toLocaleString();
-
-            messageItem.innerHTML = `
-                <div class="message-content">
-                    <h4>${submission.title}</h4>
-                    <p>${submission.message}</p>
-                    <div class="message-meta">
-                        <span>${timestamp}</span>
-                    </div>
-                </div>
-                <div class="message-actions">
-                    <button class="delete-btn" data-id="${submission._id}">
-                        <i class="fas fa-trash-alt"></i> Hapus
-                    </button>
-                </div>
-            `;
-            inboxContainer.appendChild(messageItem);
-        });
-
-        inboxContainer.querySelectorAll('.message-content').forEach(item => {
-            item.addEventListener('click', () => {
-                const parentItem = item.closest('.inbox-message-item');
-                const title = parentItem.querySelector('h4').textContent;
-                const message = parentItem.querySelector('p').textContent;
-                openMessageModal(title, message);
-            });
-        });
-
-        inboxContainer.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const id = event.currentTarget.dataset.id;
-                if (confirm('Apakah Anda yakin ingin menghapus pemberitahuan ini?')) {
-                    deleteInboxItem(id);
-                }
-            });
-        });
-
-    } else {
-        inboxContainer.innerHTML = '<p style="text-align: center; color: #888;">Tidak ada pemberitahuan.</p>';
-    }
-}
-
-function deleteInboxItem(id) {
-    localInboxData = localInboxData.filter(item => item._id !== id);
-    saveInboxToLocalStorage();
-    loadInboxSubmissions();
-}
-
-function openMessageModal(title, message) {
-    document.getElementById('modal-message-title').textContent = title;
-    document.getElementById('modal-message-text').textContent = message;
-    openModal('message-detail-modal');
-}
-
-function showLoader() {
-    const loaderWrapper = document.querySelector('.loader-wrapper');
-    if (loaderWrapper) {
-        loaderWrapper.classList.remove('hidden');
-    }
-}
-
-function hideLoader() {
-    const loaderWrapper = document.querySelector('.loader-wrapper');
-    if (loaderWrapper) {
-        loaderWrapper.classList.add('hidden');
-    }
-}
-
-// FUNGSI UNTUK MODAL DOWNLOAD
-function openDownloadModal(title, fileId, url, waLink) {
-    const modal = document.getElementById('download-options-modal');
-    const modalTitle = document.getElementById('download-modal-title');
-    const passwordInput = modal.querySelector('.password-input');
-    const passwordNote = document.getElementById('modal-password-note');
-    const submitBtn = document.getElementById('download-modal-btn');
-    const helpLink = document.getElementById('password-help-link');
-
-    if (modalTitle) modalTitle.textContent = title;
-    if (passwordInput) passwordInput.value = '';
-    if (passwordNote) passwordNote.textContent = '';
-    if (helpLink) helpLink.href = waLink; // SET TAUTAN DI SINI
-    
-    submitBtn.dataset.fileId = fileId;
-    submitBtn.dataset.url = url;
-    
-    openModal('download-options-modal');
-}
-
-function openApiModal(apiName, apiDescription) {
-    const modalTitle = document.getElementById('api-modal-title');
-    const modalDescription = document.getElementById('api-modal-description');
-    
-    if (modalTitle && modalDescription) {
-        modalTitle.textContent = apiName;
-        modalDescription.textContent = apiDescription;
-        openModal('api-modal');
-    }
-}
-
-function submitApiForm() {
-    const apiInput = document.getElementById('api-input');
-    if (apiInput.value.trim() === '') {
-        alert('Input tidak boleh kosong!');
-    } else {
-        alert('Error: HTTP error! status: 500');
-        
-        apiInput.value = '';
-        closeModal('api-modal');
-    }
-}
+// dashboard.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadPasswords();
-    
-    const submitBtn = document.getElementById('download-modal-btn');
-    if (submitBtn) {
-        submitBtn.addEventListener('click', () => {
-            const modal = document.getElementById('download-options-modal');
-            const inputElement = modal.querySelector('.password-input');
-            const noteElement = document.getElementById('modal-password-note');
-            const fileId = submitBtn.dataset.fileId;
-            const downloadUrl = submitBtn.dataset.url;
-            
-            if (!downloadInfo[fileId]) {
-                noteElement.textContent = "Password tidak ditemukan. Mohon hubungi admin.";
-                noteElement.style.color = "red";
-                return;
+    const mainContainer = document.querySelector('.main-container');
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const inboxMessages = document.getElementById('inbox-messages');
+    const passwordHelpLink = document.getElementById('password-help-link');
+    const modalPasswordInput = document.getElementById('modal-password-input');
+    const downloadModalBtn = document.getElementById('download-modal-btn');
+    const downloadOptionsModal = document.getElementById('download-options-modal');
+    const passwordNote = document.getElementById('modal-password-note');
+    const apiModal = document.getElementById('api-modal');
+    const partnerModal = document.getElementById('partner-owner-modal');
+    const openPartnerModalBtn = document.getElementById('open-partner-modal');
+    const inboxNotification = document.getElementById('inbox-notification');
+    const messageDetailModal = document.getElementById('message-detail-modal');
+
+    let passwords = {}; // Objek untuk menyimpan data password dari JSON
+
+    // Fungsi untuk memuat data password dari file JSON
+    async function loadPasswords() {
+        try {
+            const response = await fetch('passwords.json');
+            if (!response.ok) {
+                throw new Error('Gagal memuat passwords.json. Pastikan file ada.');
             }
+            passwords = await response.json();
+            console.log('Password berhasil dimuat.');
+        } catch (error) {
+            console.error('Error saat memuat password:', error);
+            alert('Gagal memuat data password. Mohon hubungi admin.');
+        }
+    }
+
+    loadPasswords(); // Panggil fungsi untuk memuat password saat halaman dimuat
+
+    const INITIALIZED_FLAG_KEY = 'hasInitializedInbox';
+    let localInboxData = [];
+
+    // Fungsi untuk menampilkan halaman
+    window.showPage = (pageId, element) => {
+        document.querySelectorAll('.content-view').forEach(page => {
+            page.style.display = 'none';
+        });
+        document.getElementById(pageId).style.display = 'block';
+
+        document.querySelectorAll('.sidebar-menu li').forEach(item => {
+            item.classList.remove('active');
+        });
+        element.closest('li').classList.add('active');
+
+        if (window.innerWidth <= 768) {
+            sidebar.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
+
+        if (pageId === 'inbox-view') {
+            renderInboxMessages();
+        }
+    };
+
+    // Fungsi untuk membuka modal
+    window.openModal = (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('show');
+            document.body.classList.add('no-scroll');
+        }
+    };
+
+    // Fungsi untuk menutup modal
+    window.closeModal = (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                document.body.classList.remove('no-scroll');
+            }, 300);
+        }
+    };
+
+    // Toggle submenu
+    window.toggleSubmenu = (element) => {
+        element.classList.toggle('open');
+        const submenu = element.querySelector('.submenu');
+        if (element.classList.contains('open')) {
+            submenu.style.maxHeight = submenu.scrollHeight + 'px';
+        } else {
+            submenu.style.maxHeight = '0';
+        }
+    };
+
+    // Buka modal download
+    window.openDownloadModal = (title, item, downloadLink, waLink) => {
+        document.getElementById('download-modal-title').innerText = `Unduh ${title}`;
+        modalPasswordInput.value = '';
+        passwordNote.innerText = '';
+        
+        // Memeriksa apakah password sudah dimuat sebelum menggunakannya
+        if (passwords[item]) {
+            passwordHelpLink.href = waLink;
+            downloadModalBtn.dataset.item = item;
+            downloadModalBtn.dataset.downloadLink = downloadLink;
+            openModal('download-options-modal');
+        } else {
+            alert('Data password belum dimuat. Mohon tunggu atau refresh halaman.');
+        }
+    };
+
+    if (downloadModalBtn) {
+        downloadModalBtn.addEventListener('click', () => {
+            const item = downloadModalBtn.dataset.item;
+            const downloadLink = downloadModalBtn.dataset.downloadLink;
             
-            if (inputElement.value === downloadInfo[fileId]) {
-                noteElement.textContent = "Password benar! Unduhan akan dimulai.";
-                noteElement.style.color = "green";
-                
-                const link = document.createElement('a');
-                link.href = downloadUrl;
-                link.download = downloadUrl.split('/').pop();
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
+            if (modalPasswordInput.value === passwords[item]) {
+                window.location.href = downloadLink;
                 closeModal('download-options-modal');
-                inputElement.value = '';
             } else {
-                noteElement.textContent = "Password salah. Silakan coba lagi.";
-                noteElement.style.color = "red";
+                passwordNote.innerText = 'Password salah. Coba lagi.';
             }
         });
     }
 
-    initializeInbox();
-    loadInboxSubmissions();
-    
-    if (document.getElementById('dashboard-view')) {
-        fetchIpAddress();
-        updateTime();
-        setInterval(updateTime, 1000);
+    // Buka modal API
+    window.openApiModal = (title, description) => {
+        document.getElementById('api-modal-title').innerText = title;
+        document.getElementById('api-modal-description').innerText = description;
+        openModal('api-modal');
+    };
+
+    // Submit form API
+    window.submitApiForm = () => {
+        const input = document.getElementById('api-input').value;
+        if (input.trim() !== '') {
+            alert(`API untuk ${document.getElementById('api-modal-title').innerText} akan memproses input: ${input}`);
+            closeModal('api-modal');
+        } else {
+            alert('Input tidak boleh kosong.');
+        }
+    };
+
+    // Toggle sidebar di mobile
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                document.body.classList.add('no-scroll');
+            } else {
+                document.body.classList.remove('no-scroll');
+            }
+        });
     }
-    
-    const partnerOwnerLink = document.getElementById('open-partner-modal');
-    if (partnerOwnerLink) {
-        partnerOwnerLink.addEventListener('click', (event) => {
-            event.preventDefault(); 
+
+    // Event listener untuk tombol close modal
+    document.querySelectorAll('.close-button').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const modalId = e.target.closest('.modal').id;
+            closeModal(modalId);
+        });
+    });
+
+    const loaderWrapper = document.querySelector('.loader-wrapper');
+    window.addEventListener('load', () => {
+        if (loaderWrapper) {
+            loaderWrapper.classList.add('hidden');
+        }
+    });
+
+    function initializeInbox() {
+        const hasInitialized = localStorage.getItem(INITIALIZED_FLAG_KEY);
+        if (!hasInitialized) {
+            localInboxData = [
+                {
+                    title: 'Welcome!',
+                    content: 'Selamat datang kembali di DitzMarketplace! Kami senang Anda berada di sini.',
+                    date: new Date().toISOString()
+                },
+                {
+                    title: 'Update APK',
+                    content: 'Kami telah menambahkan APK mod baru. Cek halaman "Mod Apk" untuk mengunduhnya!',
+                    date: new Date().toISOString()
+                }
+            ];
+            saveInboxToLocalStorage();
+            localStorage.setItem(INITIALIZED_FLAG_KEY, 'true');
+        } else {
+            loadInboxFromLocalStorage();
+        }
+    }
+
+    function saveInboxToLocalStorage() {
+        localStorage.setItem('inbox_messages', JSON.stringify(localInboxData));
+    }
+
+    function loadInboxFromLocalStorage() {
+        const storedData = localStorage.getItem('inbox_messages');
+        if (storedData) {
+            localInboxData = JSON.parse(storedData);
+        }
+    }
+
+    function renderInboxMessages() {
+        if (!inboxMessages) return;
+        inboxMessages.innerHTML = '';
+        if (localInboxData.length === 0) {
+            inboxMessages.innerHTML = '<p style="text-align: center; color: #888;">Tidak ada pesan di inbox.</p>';
+            return;
+        }
+        localInboxData.forEach((msg, index) => {
+            const messageItem = document.createElement('div');
+            messageItem.classList.add('inbox-message-item');
+            messageItem.innerHTML = `
+                <h4>${msg.title}</h4>
+                <p>${msg.content}</p>
+                <div class="message-meta">
+                    <span>${new Date(msg.date).toLocaleDateString()}</span>
+                </div>
+            `;
+            messageItem.addEventListener('click', () => {
+                document.getElementById('modal-message-title').innerText = msg.title;
+                document.getElementById('modal-message-text').innerText = msg.content;
+                openModal('message-detail-modal');
+            });
+            inboxMessages.appendChild(messageItem);
+        });
+    }
+
+    function showInboxNotification() {
+        if (!inboxNotification) return;
+        inboxNotification.classList.add('show');
+        setTimeout(() => {
+            inboxNotification.classList.remove('show');
+        }, 5000);
+    }
+
+    if (openPartnerModalBtn) {
+        openPartnerModalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             openModal('partner-owner-modal');
         });
     }
 
-    const menuToggle = document.querySelector('.menu-toggle');
-    if (menuToggle) {
-        menuToggle.addEventListener('click', toggleMenu);
+    function updateTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const timeElement = document.getElementById('time-value');
+        if (timeElement) {
+            timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
     }
+    setInterval(updateTime, 1000);
 
+    function fetchIpAddress() {
+        fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipElement = document.getElementById('ip-address-value');
+                if (ipElement) ipElement.textContent = data.ip;
+            })
+            .catch(() => {
+                const ipElement = document.getElementById('ip-address-value');
+                if (ipElement) ipElement.textContent = 'Tidak dapat memuat IP';
+            });
+    }
+    fetchIpAddress();
+    
+    initializeInbox();
+    renderInboxMessages();
     showPage('dashboard-view', document.querySelector(`.sidebar-menu a[onclick*="dashboard-view"]`));
 });
-
-// Export fungsi ke window agar bisa diakses dari HTML
-window.openModal = openModal;
-window.closeModal = closeModal;
-window.showPage = showPage;
-window.openApiModal = openApiModal;
-window.toggleSubmenu = toggleSubmenu;
-window.openDownloadModal = openDownloadModal;
-window.submitApiForm = submitApiForm;
